@@ -223,7 +223,7 @@ h2 {
     justify-content: flex-end;
     /* Push to bottom */
     align-items: center;
-    padding-bottom: 8vh;
+    padding-bottom: 15vh;
     /* Bottom third area padding */
     box-sizing: border-box;
 }
