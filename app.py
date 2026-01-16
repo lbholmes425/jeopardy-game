@@ -35,13 +35,17 @@ def get_base_url():
     global public_tunnel_url
     if public_tunnel_url:
         return public_tunnel_url
+
+    # 2. Try Render Environment Variable (Most Reliable for Cloud)
+    if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+        return f"https://{os.environ.get('RENDER_EXTERNAL_HOSTNAME')}"
     
-    # 2. Try Flask Request Context (Production / standard access)
+    # 3. Try Flask Request Context (Production / standard access)
     # This automatically handles whatever domain the user is visiting (localhost, render.com, etc)
     if request:
         return request.url_root.rstrip('/')
 
-    # 3. Fallback to reliable Local IP if outside request context
+    # 4. Fallback to reliable Local IP if outside request context
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.settimeout(0.5)
