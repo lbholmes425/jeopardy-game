@@ -599,10 +599,11 @@ body.page-player {
 .page-player .app-container {
     background: transparent !important;
     /* Remove dark global overlay to see the art */
-    justify-content: space-between;
-    /* Distribute content evenly */
+    justify-content: center;
+    /* Center content vertically in the middle of the screen */
     padding-bottom: 20px;
     padding-top: env(safe-area-inset-top);
+
     /* Handle Notch */
 }
 
