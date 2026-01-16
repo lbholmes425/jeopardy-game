@@ -3,78 +3,91 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tap & Table Jeopardy - Select Role</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=9">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=11">
+    <style>
+        /* Landing Page Specific Overrides */
+        body.page-landing {
+            /* Background is handled in style.css or here */
+            background-color: #000;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .landing-container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /* Align to bottom */
+            align-items: center;
+            padding-bottom: 20vh;
+            /* Lift buttons up significantly */
+            box-sizing: border-box;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 90%;
+            max-width: 350px;
+            /* Glass panel effect for the menu container itself if needed, 
+               but buttons are already glassy. Let's keep it clean. */
+        }
+
+        /* Enforce button styling again just to be sure */
+        button {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Different colors for roles */
+        .btn-player {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-board {
+            background: linear-gradient(135deg, rgba(6, 12, 233, 0.3), rgba(6, 12, 233, 0.5));
+            border: 1px solid rgba(100, 100, 255, 0.4);
+        }
+
+        .host-btn {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            /* Red */
+            border: 1px solid #ef4444;
+            color: white;
+            margin-top: 10px;
+            /* Slight separation */
+        }
+    </style>
+</head>
 
 <body class="page-landing">
-    /* Inherit from style.css but center content */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #000;
-    /* Explicitly use the new set image */
-    background-image: url("{{ url_for('static', filename='bg/bg_jeopardy_set.png') }}");
-    background-size: cover;
-    background-position: center;
-    }
+    <div class="landing-container">
+        <!-- Logo/Text removed as per request. Pure visual. -->
 
-    .logo-container {
-    margin-bottom: 20px;
-    }
-
-    .logo-container img {
-    max-width: 300px;
-    height: auto;
-    }
-
-    h1 {
-    /* Hidden via font size 0 or display none if logo is enough, or styled */
-    font-family: 'Oswald', sans-serif;
-    font-size: 3rem;
-    color: gold;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 4px #000;
-    margin-bottom: 40px;
-    display: none;
-    /* Logo says it all */
-    }
-
-    .menu {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    button {
-    width: 300px;
-    /* Specific to landing */
-    }
-
-    .host-btn {
-    background: #991b1b;
-    border-color: #ef4444;
-    color: white;
-    }
-    </style>
-    </head>
-
-    <body>
-        <div class="landing-container">
-            <!-- Logo removed as per user request to rely on background visualization -->
-            <!-- Header removed -->
-
-            <div class="menu-grid">
-                <a href="/join"><button>Join Game (Phone)</button></a>
-                <a href="/board"><button>Main Board (TV)</button></a>
-                <a href="/host"><button class="host-btn">Host Controller</button></a>
-            </div>
-    </body>
+        <div class="menu-grid">
+            <a href="/join" style="text-decoration: none;">
+                <button class="btn-player">Join Game (Phone)</button>
+            </a>
+            <a href="/board" style="text-decoration: none;">
+                <button class="btn-board">Main Board (TV)</button>
+            </a>
+            <a href="/host" style="text-decoration: none;">
+                <button class="host-btn">Host Controller</button>
+            </a>
+        </div>
+    </div>
+</body>
 
 </html>
