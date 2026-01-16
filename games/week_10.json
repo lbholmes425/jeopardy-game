@@ -1,0 +1,494 @@
+{
+    "title": "Week 10 (Mar 10): Oscar Night Results",
+    "theme": {
+        "--bg-image": "url('/static/bg/bg_jeopardy_set.png')",
+        "--bg-color": "#000000",
+        "--bg-overlay": "radial-gradient(circle at center, rgba(6, 12, 233, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)",
+        "--glass-bg": "rgba(6, 12, 233, 0.3)",
+        "--border-color": "rgba(255, 255, 255, 0.1)",
+        "--accent-color": "#FFCC00",
+        "--text-color": "#FFFFFF",
+        "--button-bg": "rgba(6, 12, 233, 0.8)",
+        "--button-shadow": "none"
+    },
+    "round_1": {
+        "And the Winner Is...": [
+            {
+                "value": 100,
+                "clue": "The golden statuette awarded is officially named the Academy Award of ____.",
+                "answer": "Merit",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Stars walk on a carpet of this color.",
+                "answer": "Red",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "He famously slapped Chris Rock on stage in 2022.",
+                "answer": "Will Smith",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "In 1989, the phrasing was changed from 'And the winner is...' to this.",
+                "answer": "And the Oscar goes to...",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Faye Dunaway mistakenly announced this film as Best Picture 2017.",
+                "answer": "La La Land",
+                "type": "text"
+            }
+        ],
+        "Box Office Bombs": [
+            {
+                "value": 100,
+                "clue": "This 2019 musical with 'digital fur technology' was a massive flop.",
+                "answer": "Cats",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Disney's 'John Carter' was set on this planet.",
+                "answer": "Mars",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Eddie Murphy's 'The Adventures of Pluto ____' lost 96 million dollars.",
+                "answer": "Nash",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This Kevin Costner film set on the ocean was the most expensive movie ever at the time.",
+                "answer": "Waterworld",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This Keanu Reeves samurai fantasy was a massive financial failure.",
+                "answer": "47 Ronin",
+                "type": "text"
+            }
+        ],
+        "Directors Chair": [
+            {
+                "value": 100,
+                "clue": "He directed E.T., Jaws, and Jurassic Park.",
+                "answer": "Steven Spielberg",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "He directed Titanic and Avatar.",
+                "answer": "James Cameron",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "He is known for nonlinear storylines and 'Pulp Fiction'.",
+                "answer": "Quentin Tarantino",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "She was the first woman to win Best Director (for 'The Hurt Locker').",
+                "answer": "Kathryn Bigelow",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This director is known for quirky symmetry and pastel colors.",
+                "answer": "Wes Anderson",
+                "type": "text"
+            }
+        ],
+        "Animated Features": [
+            {
+                "value": 100,
+                "clue": "Woody and Buzz Lightyear star in this Pixar classic.",
+                "answer": "Toy Story",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This ogre lives in a swamp and marries a princess.",
+                "answer": "Shrek",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "He 'Just Can't Wait to Be King' in The Lion King.",
+                "answer": "Simba",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Joy, Sadness, and Anger are characters in this film.",
+                "answer": "Inside Out",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This was the first animated film nominated for Best Picture (1991).",
+                "answer": "Beauty and the Beast",
+                "type": "text"
+            }
+        ],
+        "Movie Soundtracks": [
+            {
+                "value": 100,
+                "clue": "'Eye of the Tiger' is the anthem for this boxing movie.",
+                "answer": "Rocky III",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Celine Dion's 'My Heart Will Go On' is from this blockbuster.",
+                "answer": "Titanic",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Kenny Loggins sings 'Danger Zone' for this Tom Cruise film.",
+                "answer": "Top Gun",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Bee Gees dominate the soundtrack for this disco movie.",
+                "answer": "Saturday Night Fever",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Prince starred in and wrote the music for this 1984 film.",
+                "answer": "Purple Rain",
+                "type": "text"
+            }
+        ]
+    },
+    "round_2": {
+        "General Science": [
+            {
+                "value": 100,
+                "clue": "This planet is known as the Red Planet.",
+                "answer": "Mars",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "H2O is the chemical formula for this liquid.",
+                "answer": "Water",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This force keeps us on the ground.",
+                "answer": "Gravity",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The nucleus of an atom contains protons and these neutral particles.",
+                "answer": "Neutrons",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Au is the symbol for this element.",
+                "answer": "Gold",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This gas is essential for human respiration.",
+                "answer": "Oxygen",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The speed of light is approximately 300,000 kilometers per ____.",
+                "answer": "Second",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "This organ pumps blood through the body.",
+                "answer": "Heart",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "The hard outer shell of an insect is called an ____.",
+                "answer": "Exoskeleton",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This scientist developed the theory of relativity.",
+                "answer": "Einstein",
+                "type": "text"
+            }
+        ],
+        "World History": [
+            {
+                "value": 100,
+                "clue": "He was the first Emperor of Rome.",
+                "answer": "Augustus",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Pyramids of Giza are located in this country.",
+                "answer": "Egypt",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This wall in China is visible from space (myth, but famous).",
+                "answer": "Great Wall",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Magna Carta was signed in this year.",
+                "answer": "1215",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Joan of Arc was a heroine of this country.",
+                "answer": "France",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This ship sank on its maiden voyage in 1912.",
+                "answer": "Titanic",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The Berlin Wall fell in this year.",
+                "answer": "1989",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Cleopatra was the last active ruler of this kingdom.",
+                "answer": "Ptolemaic Egypt",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This pandemic killed millions in the 14th century.",
+                "answer": "Black Death / Plague",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Nelson Mandela was the first black president of this country.",
+                "answer": "South Africa",
+                "type": "text"
+            }
+        ],
+        "Geography": [
+            {
+                "value": 100,
+                "clue": "This is the largest continent.",
+                "answer": "Asia",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Amazon Rainforest is primarily in this country.",
+                "answer": "Brazil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This river is the longest in the world.",
+                "answer": "Nile (or Amazon)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Canberra is the capital of this country.",
+                "answer": "Australia",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Mount Everest is located in this mountain range.",
+                "answer": "Himalayas",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This U.S. state has the longest coastline.",
+                "answer": "Alaska",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "This canal connects the Atlantic and Pacific Oceans.",
+                "answer": "Panama Canal",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "The Sahara Desert is located on this continent.",
+                "answer": "Africa",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This European country is shaped like a boot.",
+                "answer": "Italy",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Tokyo is the capital of this island nation.",
+                "answer": "Japan",
+                "type": "text"
+            }
+        ],
+        "Literature": [
+            {
+                "value": 100,
+                "clue": "He wrote Romeo and Juliet.",
+                "answer": "Shakespeare",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This wizard boy attends Hogwarts.",
+                "answer": "Harry Potter",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Katniss Everdeen is the heroine of this trilogy.",
+                "answer": "Hunger Games",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Moby Dick is a giant white ____.",
+                "answer": "Whale",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Sherlock Holmes lives at 221B ____ Street.",
+                "answer": "Baker",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "Gatsby loved this woman in Fitzgerald's novel.",
+                "answer": "Daisy",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "Frankenstein created a ____.",
+                "answer": "Monster",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Bilbo Baggins finds a magic ring in this book.",
+                "answer": "The Hobbit",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Dracula comes from this region in Romania.",
+                "answer": "Transylvania",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Jane Austen wrote Pride and ____.",
+                "answer": "Prejudice",
+                "type": "text"
+            }
+        ],
+        "Pop Culture": [
+            {
+                "value": 100,
+                "clue": "This singer is known as the Queen of Pop.",
+                "answer": "Madonna",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Example of a reality TV family.",
+                "answer": "Kardashians",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The MCU stands for Marvel ____ Universe.",
+                "answer": "Cinematic",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This sitcom features six friends living in NYC.",
+                "answer": "Friends",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Beyonce was a member of this girl group.",
+                "answer": "Destiny's Child",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This platform features short-form videos.",
+                "answer": "TikTok",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "He plays Iron Man in the movies.",
+                "answer": "Robert Downey Jr.",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Taylor Swift's fans are called this.",
+                "answer": "Swifties",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Game of Thrones is based on books by George R.R. ____.",
+                "answer": "Martin",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This K-Pop group has a massive global following called ARMY.",
+                "answer": "BTS",
+                "type": "text"
+            }
+        ]
+    },
+    "final_jeopardy": {
+        "category": "World History",
+        "clue": "This pandemic killed millions in the 14th century.",
+        "answer": "Black Death / Plague",
+        "type": "text"
+    }
+}

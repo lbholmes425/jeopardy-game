@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jeopardy Board</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=9">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+
+            /* Instant Theme Injection */
+            /* Instant Theme Injection */
+                {
+                % if state and state.theme %
+            }
+
+                {
+                % for k,
+                v in state.theme.items() %
+            }
+
+                {
+                    {
+                    k
+                }
+            }
+
+            : {
+                    {
+                    v
+                }
+            }
+
+            ;
+
+                {
+                % endfor %
+            }
+
+                {
+                % endif %
+            }
+        }
+
+        /* Hide controls on passive board */
+        .round-controls,
+        .game-select-container,
+        .score-controls button,
+        .action-btn,
+        .close-btn,
+        .modal-score-controls {
+            display: none !important;
+        }
+
+        /* Make score big */
+        .score {
+            font-size: 3rem;
+        }
+
+        .team-name {
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="page-board">
+    <div id="dd-overlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,50,0.95); z-index:200; flex-direction:column; justify-content:center; align-items:center;">
+        <h1 style="color:gold; font-size:8rem; font-family:'Impact', sans-serif; text-shadow: 0 0 20px red;">DAILY
+            DOUBLE</h1>
+        <h2 id="dd-subtext" style="color:white; font-size:3rem; margin-top:20px;"></h2>
+    </div>
+
+    <div class="app-container" style="background: rgba(0,0,0,0.4);">
+        <!-- Header removed as per user request to maximize authentic board look -->
+
+        <main id="game-board-container"
+            style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2vh 10px; box-sizing: border-box;">
+            <!-- Dynamic Board Content Rendered Here -->
+            {% for round_id in ['round_1', 'round_2'] %}
+            <div id="{{ round_id }}" class="board-grid"
+                style="display: {{ 'grid' if state.current_round == round_id else 'none' }}; height: 100%; aspect-ratio: unset; max-height: none;">
+                {% for cat, qs in game[round_id].items() %}
+                <div class="category-header">{{ cat }}</div>
+                {% endfor %}
+                {% for i in range(5) %}
+                {% for cat, qs in game[round_id].items() %}
+                {% set q = qs[i] %}
+                {% set q_id = round_id + '-' + cat|replace(' ', '-') + '-' + i|string %}
+                <div class="clue-cell {{ 'used' if q_id in state.open_clues else '' }}" id="{{ q_id }}">
+                    <span class="value">${{ q.value }}</span>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+            <div id="final_jeopardy" class="final-round"
+                style="display: {{ 'block' if state.current_round == 'final_jeopardy' else 'none' }}">
+                <!-- FJ content omitted for brevity -->
+            </div>
+        </main>
+
+        <footer class="game-footer" style="padding: 5px; display: flex; justify-content: center; width: 100%;">
+            <div class="score-board" id="scoreBoard" style="display: flex; gap: 40px;">
+                <!-- Dynamically rendered by JS, or initial from state -->
+                {% for team_id in state.active_teams %}
+                <div class="team" id="team-{{ team_id }}-box" data-team="{{ team_id }}" style="min-width: 200px;">
+                    <span class="team-name" id="name-{{ team_id }}"
+                        style="font-size: 1.2rem; display: block; margin-bottom: 5px;">
+                        {{ state.team_names.get(team_id, "Team " ~ team_id)|upper }}
+                    </span>
+                    <div class="score-controls"><span class="score" id="score-{{ team_id }}" style="font-size: 3rem;">{{
+                            state.scores.get(team_id, 0) }}</span></div>
+                </div>
+                {% endfor %}
+            </div>
+        </footer>
+    </div>
+
+    <!-- Clue Modal -->
+    <div id="clue-modal" class="modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="modal-content glass-panel" style="position:relative; overflow: hidden;">
+            <div id="modal-category" class="modal-category">CATEGORY</div>
+            <div id="modal-clue" class="clue-text">CLUE TEXT GOES HERE</div>
+
+            <div id="modal-media-container" class="media-container"></div>
+
+            <!-- 5s Timer Bar (Hidden by default) -->
+            <div id="clue-timer-container" class="timer-bar-container"
+                style="position: absolute; bottom: 0; left: 0; width: 100%; height: 10px; border-radius: 0;">
+                <div id="clue-timer-bar" class="timer-bar" style="width: 0%; background: #0A84FF;"></div>
+            </div>
+            <div id="daily-double-notice" style="display:none; color: gold; font-size: 2em; font-weight: bold;">DAILY
+                DOUBLE!</div>
+
+            <div id="buzzer-overlay" style="display:none; margin-top: 20px;">
+                <h1 style="color: red; font-size: 3rem;" id="buzzer-msg">TEAM X BUZZED!</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Info Overlay (Fixed Bottom Left) -->
+    <div id="join-overlay"
+        style="position: fixed; bottom: 20px; left: 20px; text-align: center; z-index: 50; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 8px; border: 1px solid gold;">
+        <div style="color: white; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; margin-bottom: 5px;">JOIN
+            GAME</div>
+        <div id="board-qrcode" style="background: white; padding: 5px; border-radius: 4px;"></div>
+        <div
+            style="color: gold; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; margin-top: 5px; font-weight: bold;">
+            {{ base_url }}/join
+        </div>
+    </div>
+
+    <script>
+        // Board QR Code
+        const joinUrl = `{{ base_url }}/join`;
+        new QRCode(document.getElementById("board-qrcode"), {
+            text: joinUrl,
+            width: 100,
+            height: 100
+        });
+
+        const socket = io();
+
+        socket.on('state_update', (state) => {
+            updateBoard(state);
+        });
+
+        socket.on('game_loaded', (state) => {
+            window.location.reload(); // Reload to get new template data
+        });
+
+        socket.on('round_switched', (data) => {
+            document.querySelectorAll('.board-grid, .final-round').forEach(el => el.style.display = 'none');
+            const el = document.getElementById(data.round);
+            if (el) el.style.display = (data.round === 'final_jeopardy') ? 'block' : 'grid';
+        });
+
+        socket.on('scores_updated', (scores) => {
+            for (let [team, score] of Object.entries(scores)) {
+                document.getElementById(`score-${team}`).innerText = score;
+            }
+        });
+
+        socket.on('clue_opened', (clue) => {
+            const modal = document.getElementById('clue-modal');
+            const catDiv = document.getElementById('modal-category');
+            const clueDiv = document.getElementById('modal-clue');
+            const mediaContainer = document.getElementById('modal-media-container');
+
+            catDiv.innerText = clue.category;
+            clueDiv.innerText = clue.clue;
+
+            // Handle Media
+            mediaContainer.innerHTML = "";
+            if (clue.type === 'image') {
+                mediaContainer.innerHTML = `<img src="${clue.url}" class="clue-media" />`;
+                mediaContainer.style.display = 'block';
+            } else if (clue.type === 'audio') {
+                mediaContainer.innerHTML = `<button onclick="playAudio('${clue.url}')">PLAY AUDIO</button>`;
+                new Audio(clue.url).play();
+                mediaContainer.style.display = 'block';
+            } else if (clue.type === 'video') {
+                mediaContainer.innerHTML = `<video src="${clue.url}" class="clue-media" autoplay controls></video>`;
+                mediaContainer.style.display = 'block';
+            } else {
+                mediaContainer.style.display = 'none';
+            }
+
+            modal.style.display = 'flex';
+
+            // Start Timer (Visual Only for now, backend logic minimal)
+            // User asked for "5 second timer to regular questions".
+            // We can animate the bar.
+            const bar = document.getElementById('clue-timer-bar');
+            bar.style.transition = 'none';
+            bar.style.width = '100%';
+
+            // Wait a moment then start draining?
+            setTimeout(() => {
+                bar.style.transition = 'width 5s linear';
+                bar.style.width = '0%';
+
+                // Play ticking sound?
+                // new Audio('...').play();
+            }, 500);
+
+            if (clue.daily_double) {
+                document.getElementById('daily-double-notice').style.display = 'block';
+                new Audio('https://www.myinstants.com/media/sounds/daily-double.mp3').play();
+            } else {
+                document.getElementById('daily-double-notice').style.display = 'none';
+            }
+
+            modal.style.display = 'block';
+
+            // Mark used
+            const safeCat = clue.category.replace(/ /g, '-');
+            const cellId = `${clue.round}-${safeCat}-${clue.index}`;
+            const cell = document.getElementById(cellId);
+            if (cell) cell.classList.add('used');
+        });
+
+        socket.on('clue_closed', () => {
+            document.getElementById('clue-modal').style.display = 'none';
+            document.getElementById('buzzer-overlay').style.display = 'none';
+        });
+
+        socket.on('answer_revealed', (data) => {
+            document.getElementById('modal-clue-text').innerText = data.answer;
+            document.getElementById('modal-clue-text').style.color = "gold";
+            document.getElementById('buzzer-overlay').style.display = 'none'; // Hide buzzer msg if any
+            new Audio('https://www.myinstants.com/media/sounds/correct.mp3').play().catch(e => { });
+        });
+
+        socket.on('team_incorrect', (data) => {
+            const overlay = document.getElementById('buzzer-overlay');
+            document.getElementById('buzzer-msg').innerText = `TEAM ${data.team} INCORRECT`;
+            document.getElementById('buzzer-msg').style.color = "red";
+            overlay.style.display = 'block';
+            new Audio('https://www.myinstants.com/media/sounds/wrong-answer-sound-effect.mp3').play().catch(e => { });
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 2000);
+        });
+
+        socket.on('buzzed_in', (data) => {
+            const overlay = document.getElementById('buzzer-overlay');
+            document.getElementById('buzzer-msg').innerText = `TEAM ${data.team} BUZZED!`;
+            document.getElementById('buzzer-msg').style.color = "red";
+            overlay.style.display = 'block';
+            new Audio('https://www.myinstants.com/media/sounds/times-up.mp3').play().catch(e => { });
+        });
+
+        socket.on('fj_timer_started', () => {
+            const bar = document.getElementById('fj-timer-bar');
+            bar.style.width = "100%"; // Start transition
+            // Play music
+            new Audio('https://www.myinstants.com/media/sounds/jeopardy-think-music.mp3').play().catch(e => { });
+        });
+
+        socket.on('fj_item_revealed', (data) => {
+            // data: {team, item, value}
+            const el = document.getElementById(`fj-${data.item}-${data.team}`);
+            el.innerText = data.value;
+            el.style.background = "#000088";
+            new Audio('https://www.myinstants.com/media/sounds/ding-sound-effect_2.mp3').play().catch(e => { });
+        });
+
+        socket.on('daily_double_triggered', () => {
+            const overlay = document.getElementById('dd-overlay');
+            overlay.style.display = 'flex';
+            document.getElementById('dd-subtext').innerText = "WAGER";
+            // Play PEW PEW sound
+            new Audio('https://www.myinstants.com/media/sounds/pew-pew-lazer.mp3').play().catch(e => { });
+        });
+
+        function updateBoard(state) {
+            console.log("Updating Board with state:", state);
+            // Apply Theme
+            if (state.theme) {
+                const root = document.documentElement;
+                for (const [key, value] of Object.entries(state.theme)) {
+                    root.style.setProperty(key, value);
+                }
+            }
+
+            // DD Logic
+            const ddOverlay = document.getElementById('dd-overlay');
+            if (state.dd_state && state.dd_state !== 'revealed') {
+                ddOverlay.style.display = 'flex';
+                if (state.dd_wager && state.dd_wager > 0) {
+                    document.getElementById('dd-subtext').innerText = `$${state.dd_wager}`;
+                } else {
+                    document.getElementById('dd-subtext').innerText = "WAGER";
+                }
+            } else {
+                ddOverlay.style.display = 'none';
+            }
+            if (state.active_teams && state.active_teams.length > 0) {
+                // For now, assume 1-3.
+                for (let t = 1; t <= 3; t++) {
+                    const card = document.getElementById(`fj-card-${t}`); // Need to add ID to card
+                    if (card) {
+                        card.style.display = state.active_teams.includes(t) ? 'block' : 'none';
+                        // Update Name
+                        const nameEl = card.querySelector('h2'); // The h2 isn't easily selectable without class/ID.
+                        // Wait, I didn't add the ID for name in board.html yet?
+                        // Actually, I can select: document.querySelector(`#fj-card-${t} h2`).
+                        const name = state.team_names[t] || `Team ${t}`;
+                        if (nameEl) nameEl.innerText = name;
+                    }
+                }
+            }
+
+            // Update Active Teams & Scores
+            const scoreBoard = document.getElementById('scoreBoard');
+            const currentElements = Array.from(scoreBoard.children);
+            const activeIds = state.active_teams || [];
+
+            // Check if we need to rebuild (simple check: length mismatch or id mismatch)
+            // Ideally we just rebuild to differ to state
+            let needsRebuild = false;
+            if (currentElements.length !== activeIds.length) needsRebuild = true;
+            else {
+                // Check IDs
+                currentElements.forEach((el, index) => {
+                    if (parseInt(el.dataset.team) !== activeIds[index]) needsRebuild = true;
+                });
+            }
+
+            if (needsRebuild) {
+                scoreBoard.innerHTML = '';
+                activeIds.forEach(t => {
+                    const name = state.team_names[t] || `TEAM ${t}`;
+                    const score = state.scores[t] || 0;
+
+                    const div = document.createElement('div');
+                    div.className = 'team';
+                    div.id = `team-${t}-box`;
+                    div.dataset.team = t;
+                    div.innerHTML = `
+                        <span class="team-name" id="name-${t}">${name.toUpperCase()}</span>
+                        <div class="score-controls"><span class="score" id="score-${t}">${score}</span></div>
+                    `;
+                    scoreBoard.appendChild(div);
+                });
+            } else {
+                // Just update values
+                activeIds.forEach(t => {
+                    const name = state.team_names[t] || `TEAM ${t}`;
+                    const score = state.scores[t] || 0;
+
+                    const nameEl = document.getElementById(`name-${t}`);
+                    if (nameEl) nameEl.innerText = name.toUpperCase();
+
+                    const scoreEl = document.getElementById(`score-${t}`);
+                    if (scoreEl) scoreEl.innerText = score;
+                });
+            }
+
+            // FJ Clue Text
+            if (state.final_clue_text) {
+                document.getElementById('fj-display-clue').innerText = state.final_clue_text;
+            }
+
+            // Check FJ reveal state on load
+            if (state.final_reveal_state) {
+                for (let [team, info] of Object.entries(state.final_reveal_state)) {
+                    if (info.wager) {
+                        const el = document.getElementById(`fj-wager-${team}`);
+                        if (el) el.innerText = state.final_wagers[team];
+                    }
+                    if (info.answer) {
+                        const el = document.getElementById(`fj-answer-${team}`);
+                        if (el) el.innerText = state.final_answers[team];
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

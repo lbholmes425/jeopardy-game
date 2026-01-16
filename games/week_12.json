@@ -1,0 +1,494 @@
+{
+    "title": "Week 12 (Mar 24): March Madness",
+    "theme": {
+        "--bg-image": "url('/static/bg/bg_jeopardy_set.png')",
+        "--bg-color": "#000000",
+        "--bg-overlay": "radial-gradient(circle at center, rgba(6, 12, 233, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)",
+        "--glass-bg": "rgba(6, 12, 233, 0.3)",
+        "--border-color": "rgba(255, 255, 255, 0.1)",
+        "--accent-color": "#FFCC00",
+        "--text-color": "#FFFFFF",
+        "--button-bg": "rgba(6, 12, 233, 0.8)",
+        "--button-shadow": "none"
+    },
+    "round_1": {
+        "Cinderella Stories": [
+            {
+                "value": 100,
+                "clue": "In the fairy tale, her coach turns into this vegetable at midnight.",
+                "answer": "Pumpkin",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "In sports, a much lower seeded team that goes deep in a tournament is called this.",
+                "answer": "Cinderella",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "In 2018, UMBC became the first #16 seed to defeat a #1 seed, this Virginia university.",
+                "answer": "UVA (Virginia)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This 'Peacock' university reached the Elite Eight in 2022 as a 15 seed.",
+                "answer": "Saint Peter's",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Cinderella loses a slipper made of this material.",
+                "answer": "Glass",
+                "type": "text"
+            }
+        ],
+        "NCAA Mascots": [
+            {
+                "value": 100,
+                "clue": "The University of Florida sports teams are named after this reptile.",
+                "answer": "Gator",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Duke University is represented by this 'Blue' entity.",
+                "answer": "Devil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The University of Georgia mascot is a bulldog by this name.",
+                "answer": "Uga",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Oregon Ducks mascot is based on this Disney character.",
+                "answer": "Donald Duck",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "The Stanford Cardinal mascot is famously not a bird, but one of these.",
+                "answer": "Tree",
+                "type": "text"
+            }
+        ],
+        "Bracket Busters": [
+            {
+                "value": 100,
+                "clue": "The odds of filling out a perfect bracket are 1 in 9.2 ____.",
+                "answer": "Quintillion",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "There are this many teams in the main March Madness bracket (excluding First Four).",
+                "answer": "64",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Warren Buffett famously offered this amount of money for a perfect bracket.",
+                "answer": "1 Billion Dollars",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This term describes what happens to your bracket when your champion loses early.",
+                "answer": "Busted",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "The 'First Four' games are typically played in this Ohio city.",
+                "answer": "Dayton",
+                "type": "text"
+            }
+        ],
+        "Basketball Rules": [
+            {
+                "value": 100,
+                "clue": "A free throw is worth this many points.",
+                "answer": "One",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This violation occurs when a player takes steps without dribbling.",
+                "answer": "Traveling",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "A shot made from outside the large semi-circle arc is worth this many points.",
+                "answer": "Three",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Each team puts this many players on the court at a time.",
+                "answer": "Five",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "In men's college basketball, the shot clock is set to this many seconds.",
+                "answer": "30",
+                "type": "text"
+            }
+        ],
+        "College Towns": [
+            {
+                "value": 100,
+                "clue": "Cambridge, Massachusetts is home to this oldest US university.",
+                "answer": "Harvard",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This 'Hill' in North Carolina is home to the Tar Heels.",
+                "answer": "Chapel Hill",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "South Bend, Indiana is the home of this 'Fighting Irish' university.",
+                "answer": "Notre Dame",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Tuscaloosa is the home of this Crimson Tide university.",
+                "answer": "Alabama",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Athens is the home of the Bulldogs in this state.",
+                "answer": "Georgia",
+                "type": "text"
+            }
+        ]
+    },
+    "round_2": {
+        "General Science": [
+            {
+                "value": 100,
+                "clue": "This planet is known as the Red Planet.",
+                "answer": "Mars",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "H2O is the chemical formula for this liquid.",
+                "answer": "Water",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This force keeps us on the ground.",
+                "answer": "Gravity",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The nucleus of an atom contains protons and these neutral particles.",
+                "answer": "Neutrons",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Au is the symbol for this element.",
+                "answer": "Gold",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This gas is essential for human respiration.",
+                "answer": "Oxygen",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The speed of light is approximately 300,000 kilometers per ____.",
+                "answer": "Second",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "This organ pumps blood through the body.",
+                "answer": "Heart",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "The hard outer shell of an insect is called an ____.",
+                "answer": "Exoskeleton",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This scientist developed the theory of relativity.",
+                "answer": "Einstein",
+                "type": "text"
+            }
+        ],
+        "World History": [
+            {
+                "value": 100,
+                "clue": "He was the first Emperor of Rome.",
+                "answer": "Augustus",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Pyramids of Giza are located in this country.",
+                "answer": "Egypt",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This wall in China is visible from space (myth, but famous).",
+                "answer": "Great Wall",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Magna Carta was signed in this year.",
+                "answer": "1215",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Joan of Arc was a heroine of this country.",
+                "answer": "France",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This ship sank on its maiden voyage in 1912.",
+                "answer": "Titanic",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The Berlin Wall fell in this year.",
+                "answer": "1989",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Cleopatra was the last active ruler of this kingdom.",
+                "answer": "Ptolemaic Egypt",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This pandemic killed millions in the 14th century.",
+                "answer": "Black Death / Plague",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Nelson Mandela was the first black president of this country.",
+                "answer": "South Africa",
+                "type": "text"
+            }
+        ],
+        "Geography": [
+            {
+                "value": 100,
+                "clue": "This is the largest continent.",
+                "answer": "Asia",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Amazon Rainforest is primarily in this country.",
+                "answer": "Brazil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This river is the longest in the world.",
+                "answer": "Nile (or Amazon)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Canberra is the capital of this country.",
+                "answer": "Australia",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Mount Everest is located in this mountain range.",
+                "answer": "Himalayas",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This U.S. state has the longest coastline.",
+                "answer": "Alaska",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "This canal connects the Atlantic and Pacific Oceans.",
+                "answer": "Panama Canal",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "The Sahara Desert is located on this continent.",
+                "answer": "Africa",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This European country is shaped like a boot.",
+                "answer": "Italy",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Tokyo is the capital of this island nation.",
+                "answer": "Japan",
+                "type": "text"
+            }
+        ],
+        "Literature": [
+            {
+                "value": 100,
+                "clue": "He wrote Romeo and Juliet.",
+                "answer": "Shakespeare",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This wizard boy attends Hogwarts.",
+                "answer": "Harry Potter",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Katniss Everdeen is the heroine of this trilogy.",
+                "answer": "Hunger Games",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Moby Dick is a giant white ____.",
+                "answer": "Whale",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Sherlock Holmes lives at 221B ____ Street.",
+                "answer": "Baker",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "Gatsby loved this woman in Fitzgerald's novel.",
+                "answer": "Daisy",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "Frankenstein created a ____.",
+                "answer": "Monster",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Bilbo Baggins finds a magic ring in this book.",
+                "answer": "The Hobbit",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Dracula comes from this region in Romania.",
+                "answer": "Transylvania",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Jane Austen wrote Pride and ____.",
+                "answer": "Prejudice",
+                "type": "text"
+            }
+        ],
+        "Pop Culture": [
+            {
+                "value": 100,
+                "clue": "This singer is known as the Queen of Pop.",
+                "answer": "Madonna",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Example of a reality TV family.",
+                "answer": "Kardashians",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The MCU stands for Marvel ____ Universe.",
+                "answer": "Cinematic",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This sitcom features six friends living in NYC.",
+                "answer": "Friends",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Beyonce was a member of this girl group.",
+                "answer": "Destiny's Child",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This platform features short-form videos.",
+                "answer": "TikTok",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "He plays Iron Man in the movies.",
+                "answer": "Robert Downey Jr.",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Taylor Swift's fans are called this.",
+                "answer": "Swifties",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Game of Thrones is based on books by George R.R. ____.",
+                "answer": "Martin",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This K-Pop group has a massive global following called ARMY.",
+                "answer": "BTS",
+                "type": "text"
+            }
+        ]
+    },
+    "final_jeopardy": {
+        "category": "Potpourri",
+        "clue": "The fear of spiders.",
+        "answer": "Arachnophobia",
+        "type": "text"
+    }
+}

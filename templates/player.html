@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Buzzer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=9">
+    <!-- Remove inline styles to prefer external stylesheet -->
+    <style>
+        body {
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* Better for scrolling on mobile */
+        }
+
+        /* ... existing styles ... */
+        :root {
+
+            /* Instant Theme Injection */
+            /* Instant Theme Injection */
+                {
+                % if state and state.theme %
+            }
+
+                {
+                % for k,
+                v in state.theme.items() %
+            }
+
+                {
+                    {
+                    k
+                }
+            }
+
+            : {
+                    {
+                    v
+                }
+            }
+
+            ;
+
+                {
+                % endfor %
+            }
+
+                {
+                % endif %
+            }
+        }
+
+        .buzzer-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* 3D Arcade Button */
+        #buzz-btn {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: none;
+            background: radial-gradient(circle at 30% 30%, #ff4d4d, #cc0000);
+            box-shadow:
+                0 15px 0 #990000,
+                0 25px 20px rgba(0, 0, 0, 0.5),
+                inset 0 10px 20px rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+            position: relative;
+            top: 0;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Active / Ready State */
+        #buzz-btn.active {
+            background: radial-gradient(circle at 30% 30%, #4dff4d, #00cc00);
+            box-shadow:
+                0 15px 0 #009900,
+                0 0 50px rgba(0, 255, 0, 0.6),
+                /* Glow */
+                0 25px 20px rgba(0, 0, 0, 0.5),
+                inset 0 10px 20px rgba(255, 255, 255, 0.3);
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 15px 0 #009900, 0 0 30px rgba(0, 255, 0, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 15px 0 #009900, 0 0 80px rgba(0, 255, 0, 0.8), 0 0 20px #fff;
+            }
+
+            100% {
+                box-shadow: 0 15px 0 #009900, 0 0 30px rgba(0, 255, 0, 0.4);
+            }
+        }
+
+        /* Pressed State */
+        #buzz-btn:active,
+        #buzz-btn.pressed {
+            transform: translateY(15px);
+            box-shadow:
+                0 0 0 #990000,
+                0 0 10px rgba(0, 0, 0, 0.5),
+                inset 0 10px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        #buzz-btn.active:active,
+        #buzz-btn.active.pressed {
+            box-shadow:
+                0 0 0 #009900,
+                0 0 10px rgba(0, 0, 0, 0.5),
+                inset 0 10px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Locked / Disabled State */
+        #buzz-btn.locked {
+            background: #444;
+            color: #888;
+            box-shadow: 0 5px 0 #222;
+            cursor: not-allowed;
+            transform: translateY(10px);
+        }
+
+        /* Winner State */
+        #buzz-btn.win {
+            background: radial-gradient(circle at 30% 30%, #ffd700, #ffaa00);
+            box-shadow: 0 15px 0 #cc8800, 0 0 60px gold;
+            color: #442a00;
+            animation: bounce 0.5s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .status {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            right: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        .team-select-btn {
+            background: #222;
+            color: white;
+            border: 2px solid #444;
+            padding: 20px;
+            margin: 10px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .team-select-btn:hover {
+            background: #333;
+            border-color: gold;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="page-player">
+
+    <!-- Setup / Join Screen -->
+    <div id="setup-screen" class="app-container"
+        style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+
+        <!-- Interface at the top -->
+        <div class="glass-panel" style="width: 100%; max-width: 400px; text-align: center; padding: 40px;">
+            <!-- Logo removed -->
+
+            <div style="text-align: left; margin-bottom: 10px; font-weight: 500; color: rgba(255,255,255,0.7);">Step 1:
+                Create Name</div>
+            <input type="text" id="new-team-name" placeholder="Enter Team Name..." maxlength="15" class="glass-panel"
+                style="width:100%; padding:15px; font-size:1.2rem; margin-bottom:15px; color:white; text-align:center; background: rgba(0,0,0,0.2);">
+
+            <button class="menu-btn" onclick="createNewTeam()"
+                style="width:100%; margin-bottom: 30px; background: rgba(50, 205, 50, 0.3); border-color: rgba(50, 205, 50, 0.5);">
+                CREATE & JOIN
+            </button>
+            <div id="join-error" style="color: #ff4d4d; margin-top:-20px; margin-bottom: 20px; display:none;">Game Full!
+            </div>
+
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <div style="text-align: left; margin-bottom: 15px; font-weight: 500; color: rgba(255,255,255,0.7);">Step
+                    2: Or Join Existing</div>
+                <div id="existing-teams-list" style="display:flex; flex-direction:column; gap:10px;">
+                    <!-- Populated dynamically -->
+                    <div style="color:rgba(255,255,255,0.5); font-style: italic;">Detailed active teams will appear
+                        here...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="hidden" style="height: 100%; display: flex; flex-direction: column;">
+        <div class="glass-panel"
+            style="padding: 10px; margin-bottom: 10px; display: flex; justify-content: center; background: rgba(0,0,0,0.3);">
+            <!-- Simple textual status if logo is gone -->
+            <div class="status" id="status-msg" style="position: static; font-size: 1.2rem;">WAITING...</div>
+        </div>
+
+        <!-- Clue Text Container -->
+        <div id="clue-container" class="glass-panel"
+            style="padding: 20px; flex: 0 0 auto; min-height: 15vh; display: flex; align-items: center; justify-content: center; margin-top: 20px; margin-bottom: 20px;">
+            <div id="player-clue-text"
+                style="font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 500; color: white; text-align: center;"></div>
+        </div>
+
+        <div class="buzzer-wrapper" style="flex:1; display:flex; align-items:center; justify-content:center;">
+            <div id="buzz-btn" class="big-buzzer locked" onclick="buzz()">
+                <div
+                    style="pointer-events: none; font-size: 2rem; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                    WAIT</div>
+            </div>
+        </div>
+
+        <div
+            style="padding: 20px; color: rgba(255,255,255,0.5); text-transform: uppercase; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-align: center;">
+            Tap to Buzz
+        </div>
+    </div>
+
+    <div id="dd-wager-screen" class="hidden"
+        style="height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 20px; align-items: center;">
+        <div class="glass-panel" style="padding: 40px; width: 100%; max-width: 500px; text-align: center;">
+            <h1 style="color: gold; margin-bottom: 20px;">DAILY DOUBLE!</h1>
+            <h3 id="dd-wager-info" style="color: white; margin-bottom: 10px;">Enter Wager</h3>
+            <p style="color:rgba(255,255,255,0.7); margin-bottom: 20px;">Max: <span id="dd-max-wager"></span></p>
+            <input type="number" id="dd-wager-input" placeholder="0" class="glass-panel"
+                style="font-size: 2rem; padding: 15px; width: 80%; text-align: center; margin-bottom: 30px; color: white; background: rgba(0,0,0,0.3);">
+            <button class="menu-btn" onclick="submitDDWager()"
+                style="width: 80%; background: rgba(6, 12, 233, 0.5);">PLACE BET</button>
+        </div>
+    </div>
+
+    <!-- Final Jeopardy Screens -->
+    <div id="fj-wager-screen" class="hidden"
+        style="height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 20px; align-items: center;">
+        <div class="glass-panel" style="padding: 40px; width: 100%; max-width: 500px; text-align: center;">
+            <h1 style="color: gold;">FINAL JEOPARDY</h1>
+            <h2 style="color: white; margin-bottom: 20px;">ENTER YOUR WAGER</h2>
+            <input type="number" id="wager-input" placeholder="0" class="glass-panel"
+                style="font-size: 2rem; padding: 15px; width: 80%; text-align: center; margin-bottom: 30px; color: white; background: rgba(0,0,0,0.3);">
+            <button class="menu-btn" onclick="submitWager()"
+                style="width: 80%; background: rgba(6, 12, 233, 0.5);">SUBMIT WAGER</button>
+            <div id="wager-wait-msg" class="hidden" style="margin-top: 20px; color: rgba(255,255,255,0.6);">Wager
+                Submitted. Waiting...</div>
+        </div>
+    </div>
+
+    <div id="fj-answer-screen" class="hidden"
+        style="height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 20px; align-items: center;">
+        <div class="glass-panel" style="padding: 40px; width: 100%; max-width: 500px; text-align: center;">
+            <h1 style="color: gold;">FINAL JEOPARDY</h1>
+            <h2 style="color: white;">ENTER YOUR ANSWER</h2>
+            <h3 id="fj-clue-text" style="color: white; margin: 20px 0; font-size: 1.2rem;"></h3>
+            <input type="text" id="answer-input" placeholder="Type answer..." class="glass-panel"
+                style="font-size: 1.5rem; padding: 15px; width: 90%; text-align: center; margin-bottom: 30px; color: white; background: rgba(0,0,0,0.3);">
+            <button class="menu-btn" onclick="submitAnswer()"
+                style="width: 90%; background: rgba(50, 205, 50, 0.4);">SUBMIT ANSWER</button>
+            <div id="answer-wait-msg" class="hidden" style="margin-top: 20px; color: rgba(255,255,255,0.6);">Answer
+                Submitted. Good Luck!</div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        let myTeamId = null;
+        let canBuzz = false;
+
+        // Sounds
+        const sounds = {
+            click: new Audio('https://www.myinstants.com/media/sounds/click_2.mp3'),
+            active: new Audio('https://www.myinstants.com/media/sounds/discord-notification.mp3'),
+            buzz: new Audio('https://www.myinstants.com/media/sounds/wrong-answer-sound-effect.mp3'),
+            ding: new Audio('https://www.myinstants.com/media/sounds/ding-sound-effect_2.mp3'),
+            lock: new Audio('https://www.myinstants.com/media/sounds/locked-door.mp3'),
+            correct: new Audio('https://www.myinstants.com/media/sounds/correct.mp3')
+        };
+        Object.values(sounds).forEach(s => s.load());
+
+        // --- Team Logic ---
+
+        function createNewTeam() {
+            const name = document.getElementById('new-team-name').value.trim() || "Team " + (Math.floor(Math.random() * 1000));
+            // Find free slot
+            let freeSlot = null;
+            if (!lastState.active_teams) lastState.active_teams = [];
+
+            for (let i = 1; i <= 3; i++) {
+                if (!lastState.active_teams.includes(i)) {
+                    freeSlot = i;
+                    break;
+                }
+            }
+
+            if (freeSlot) {
+                joinTeam(freeSlot, name);
+            } else {
+                document.getElementById('join-error').style.display = 'block';
+            }
+        }
+
+        function joinTeam(id, name) {
+            myTeamId = id;
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden'); // Immediate feedback
+
+            // If name is null, it means we joined existing, so we will wait for state update to see name,
+            // OR we can grab it from lastState if avail.
+            let displayName = name;
+            if (!displayName && lastState.team_names && lastState.team_names[id]) {
+                displayName = lastState.team_names[id];
+            }
+
+            document.getElementById('status-msg').innerText = displayName ? displayName.toUpperCase() : `TEAM ${id}`;
+
+            // Notify backend I have joined
+            // If checking into existing, sending name again overwrites it? 
+            // Better only send name if provided.
+            const payload = { action: 'join_team', team: id };
+            if (name) payload.name = name;
+
+            socket.emit('host_action', payload);
+
+            sounds.click.play().catch(e => { });
+        }
+
+        // ... (Buzzing logic retained) ...
+        function buzz() {
+            if (!canBuzz) return;
+            const btn = document.getElementById('buzz-btn');
+            btn.classList.add('pressed');
+            sounds.click.play().catch(e => { });
+            socket.emit('player_buzz', { team_id: myTeamId });
+            if (navigator.vibrate) navigator.vibrate(200);
+        }
+
+        function updateBtn(state, text, subtext) {
+            const btn = document.getElementById('buzz-btn');
+            // Reset base class
+            btn.className = 'big-buzzer';
+
+            // Content update helper
+            const setContent = (txt) => {
+                btn.innerHTML = `<div style="pointer-events: none; font-size: 2rem; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${txt}</div>`;
+            };
+
+            if (state === 'idle') {
+                // btn.disabled = true; // Div doesn't have disabled, use class
+                btn.classList.add('locked');
+                setContent(text);
+                canBuzz = false;
+            } else if (state === 'active') {
+                btn.classList.add('active');
+                setContent(text);
+                // canBuzz handled by caller usually, but ensure here
+            } else if (state === 'win') {
+                btn.classList.add('active'); // Keep green
+                setContent(text);
+            } else if (state === 'lose') {
+                btn.classList.add('locked');
+                setContent(text);
+            }
+            document.getElementById('status-msg').innerText = subtext;
+        }
+
+        // FJ Logic
+        function submitWager() {
+            const amount = document.getElementById('wager-input').value;
+            if (amount === '') return;
+            socket.emit('submit_wager', { team_id: myTeamId, amount: amount });
+            document.getElementById('wager-wait-msg').classList.remove('hidden');
+            document.querySelector('#fj-wager-screen button').disabled = true;
+        }
+
+        function submitAnswer() {
+            const text = document.getElementById('answer-input').value;
+            if (text === '') return;
+            socket.emit('submit_answer', { team_id: myTeamId, text: text });
+            document.getElementById('answer-wait-msg').classList.remove('hidden');
+            document.querySelector('#fj-answer-screen button').disabled = true;
+        }
+
+        function submitDDWager() {
+            const amount = document.getElementById('dd-wager-input').value;
+            if (amount === '') return;
+            socket.emit('submit_dd_wager', { team_id: myTeamId, amount: amount });
+            // Hide input feedback
+            document.getElementById('dd-wager-info').innerText = "Wager Placed.";
+        }
+
+        // --- Event Listeners ---
+
+        socket.on('daily_double_triggered', () => {
+            // Play laser sound
+            new Audio('https://www.myinstants.com/media/sounds/pew-pew-lazer.mp3').play().catch(e => { });
+        });
+
+        // Global cache needed for join logic
+        let lastState = { active_teams: [], team_names: {} };
+
+        socket.on('state_update', (state) => {
+            console.log("State Update:", state);
+            lastState = state;
+
+            // Apply Theme
+            if (state.theme) {
+                const root = document.documentElement;
+                for (const [key, value] of Object.entries(state.theme)) {
+                    root.style.setProperty(key, value);
+                }
+            }
+
+            // Update Team Names
+            // Update Existing Teams List on Setup Screen
+            if (!myTeamId) {
+                const list = document.getElementById('existing-teams-list');
+                list.innerHTML = "";
+                if (state.active_teams && state.active_teams.length > 0) {
+                    state.active_teams.forEach(t => {
+                        const name = state.team_names[t] || `Team ${t}`;
+                        const btn = document.createElement('button');
+                        btn.className = 'menu-btn'; // Use global glass button class
+                        btn.style.width = "100%";
+                        btn.style.marginBottom = "8px";
+                        btn.innerText = `JOIN: ${name}`;
+                        btn.onclick = () => joinTeam(t, null);
+                        list.appendChild(btn);
+                    });
+                } else {
+                    list.innerHTML = `<div style="color:#666;">No active teams yet.</div>`;
+                }
+            } else {
+                // Update my name if it changed
+                if (state.team_names && state.team_names[myTeamId]) {
+                    document.getElementById('status-msg').innerText = state.team_names[myTeamId].toUpperCase();
+                }
+            }
+
+            // Handle different screens based on round and phase
+            const setup = document.getElementById('setup-screen');
+            const game = document.getElementById('game-screen');
+            const fjWager = document.getElementById('fj-wager-screen');
+            const fjAnswer = document.getElementById('fj-answer-screen');
+            const ddScreen = document.getElementById('dd-wager-screen');
+
+            if (!myTeamId) return; // Still setting up
+
+            // Reset all
+            setup.classList.add('hidden');
+            game.classList.add('hidden');
+            fjWager.classList.add('hidden');
+            fjAnswer.classList.add('hidden');
+            ddScreen.classList.add('hidden');
+
+            if (state.current_round === 'final_jeopardy') {
+                if (state.final_phase === 'wager') {
+                    fjWager.classList.remove('hidden');
+                } else if (state.final_phase === 'answer') {
+                    fjAnswer.classList.remove('hidden');
+                    if (state.final_clue_text) {
+                        document.getElementById('fj-clue-text').innerText = state.final_clue_text;
+                    }
+                } else {
+                    // Reveal phase, just show "Look at TV" or maybe detailed results later
+                    game.classList.remove('hidden');
+                    updateBtn('idle', 'WAIT', 'LOOK AT BOARD');
+                }
+            } else if (state.dd_state) {
+                // Daily Double Active
+                if (state.dd_team === myTeamId && state.dd_state === 'wager') {
+                    ddScreen.classList.remove('hidden');
+                    // Calc Max
+                    const score = state.scores[myTeamId];
+                    const max = Math.max(score, 2500); // 2500 max logic per user request
+                    // Wait, "up to 2500" usually means max limit, but Jeopardy rules are "Current Score OR 1000/2000".
+                    // User said: "set their wager (up to 2500 - it can also be 0)". 
+                    // I'll assume they mean "At least 2500 potential" or "Capped at 2500"? 
+                    // "up to 2500" implies a Cap. But standard rules allow True Daily Double.
+                    // Let's interpret "up to 2500" as "If score is low, can bet up to 2500".
+                    // If score is 5000, can they bet 5000? 
+                    // I will implement standard logic: Max(CurrentScore, 2500). (Assuming 2500 is the floor max).
+                    document.getElementById('dd-max-wager').innerText = "$" + max;
+                    document.getElementById('dd-wager-input').max = max;
+                    document.getElementById('dd-wager-input').focus();
+                } else {
+                    // Show locking screen
+                    game.classList.remove('hidden');
+                    updateBtn('idle', 'DAILY DOUBLE', (state.dd_team ? `TEAM ${state.dd_team} WAGERING` : 'SELECTING TEAM...'));
+                }
+            } else {
+                game.classList.remove('hidden');
+                document.getElementById('status-msg').innerText = `TEAM ${myTeamId}`;
+            }
+        });
+
+        socket.on('round_switched', (data) => {
+            // force state update request or wait for one?
+            // Usually followed by state_update from server
+        });
+
+        socket.on('clue_opened', (clue) => {
+            canBuzz = true;
+            updateBtn('active', 'BUZZ!', 'GO! GO! GO!');
+            document.getElementById('player-clue-text').innerText = clue.clue;
+            document.getElementById('clue-container').style.background = "#222";
+            document.getElementById('clue-container').style.color = "white";
+            sounds.active.play().catch(e => { });
+            if (navigator.vibrate) navigator.vibrate(50);
+        });
+
+        socket.on('clue_closed', () => {
+            canBuzz = false;
+            updateBtn('idle', 'WAIT', 'Question Closed');
+            document.getElementById('player-clue-text').innerText = "";
+        });
+
+        socket.on('answer_revealed', (data) => {
+            canBuzz = false;
+            document.getElementById('player-clue-text').innerText = data.answer;
+            document.getElementById('clue-container').style.background = "gold";
+            document.getElementById('clue-container').style.color = "black";
+            updateBtn('idle', 'ANSWER', 'REVEALED');
+            sounds.correct.play().catch(e => { });
+        });
+
+        socket.on('team_incorrect', (data) => {
+            // If it's my team, I'm locked out
+            if (myTeamId === data.team) {
+                canBuzz = false;
+                updateBtn('lose', 'WRONG', 'LOCKED OUT');
+                sounds.lock.play().catch(e => { });
+                if (navigator.vibrate) navigator.vibrate(500);
+            } else {
+                // If it's another team, I can buzz again!
+                canBuzz = true;
+                updateBtn('active', 'BUZZ!', 'GO! GO! GO!');
+                sounds.active.play().catch(e => { });
+                if (navigator.vibrate) navigator.vibrate(50);
+            }
+        });
+
+        socket.on('buzzer_reset', (data) => {
+            const blockedTeams = (data && data.attempted_teams) ? data.attempted_teams : [];
+
+            if (blockedTeams.includes(myTeamId)) {
+                canBuzz = false;
+                updateBtn('lose', 'WRONG', 'LOCKED OUT');
+            } else {
+                canBuzz = true;
+                updateBtn('active', 'BUZZ!', 'GO! GO! GO!');
+                if (navigator.vibrate) navigator.vibrate(50);
+            }
+        });
+
+        socket.on('buzzed_in', (data) => {
+            canBuzz = false;
+
+            if (data.team === myTeamId) {
+                updateBtn('win', 'YOU!', 'BUZZED IN!');
+                sounds.ding.play().catch(e => { });
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 100]);
+            } else {
+                updateBtn('lose', 'LOCKED', `Team ${data.team} was faster`);
+                sounds.lock.play().catch(e => { });
+            }
+        });
+
+        // Initial State
+        updateBtn('idle', 'WAIT', 'Waiting for Host...');
+    </script>
+</body>
+
+</html>

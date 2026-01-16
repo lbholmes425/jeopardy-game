@@ -1,0 +1,524 @@
+{
+    "title": "Week 01 (Jan 06): New Year's Resolutions",
+    "theme": {
+        "--bg-image": "url('/static/bg/bg_jeopardy_set.png')",
+        "--bg-color": "#000000",
+        "--bg-overlay": "radial-gradient(circle at center, rgba(6, 12, 233, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)",
+        "--glass-bg": "rgba(6, 12, 233, 0.3)",
+        "--border-color": "rgba(255, 255, 255, 0.1)",
+        "--accent-color": "#FFCC00",
+        "--text-color": "#FFFFFF",
+        "--button-bg": "rgba(6, 12, 233, 0.8)",
+        "--button-shadow": "none"
+    },
+    "round_1": {
+        "Gym Failures": [
+            {
+                "value": 100,
+                "clue": "This cardio machine with a moving belt is most commonly abandoned by February.",
+                "answer": "Treadmill",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Planet Fitness promotes a 'No _____ Zone' to discourage intimidation.",
+                "answer": "Lunk",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Also known as a squat thrust, this full-body exercise is universally dreaded.",
+                "answer": "Burpee",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This 'C' word refers to the exercises focusing on the heart's health.",
+                "answer": "Cardio",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This 80s fitness icon released 'Jane Fonda's Workout', the best selling VHS of all time.",
+                "answer": "Jane Fonda",
+                "type": "text"
+            }
+        ],
+        "Fresh Starts": [
+            {
+                "value": 100,
+                "clue": "A 'tabula rasa' is a Latin phrase meaning this.",
+                "answer": "Blank Slate",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "In mythology, this bird cyclically regenerates or is otherwise born again.",
+                "answer": "Phoenix",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This type of bankruptcy allows a business to reorganize its debts.",
+                "answer": "Chapter 11",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The idiom 'turning over a new ____' refers to pages in a book.",
+                "answer": "Leaf",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This 17th century philosopher coined the 'Blank Slate' theory of mind.",
+                "answer": "John Locke",
+                "type": "text"
+            }
+        ],
+        "Calendar History": [
+            {
+                "value": 100,
+                "clue": "Our current calendar is named after this 16th century Pope.",
+                "answer": "Gregory (Gregorian)",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The month of July is named after this Roman leader.",
+                "answer": "Julius Caesar",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "A leap year occurs every ____ years.",
+                "answer": "Four",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Mayan calendar famously completed a major cycle in this year, sparking doomsday theories.",
+                "answer": "2012",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "October derives its name from the Latin word for this number, despite being the 10th month.",
+                "answer": "Eight (Octo)",
+                "type": "text"
+            }
+        ],
+        "Champagne Questions": [
+            {
+                "value": 100,
+                "clue": "To be called Champagne, it must come from this country.",
+                "answer": "France",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This Benedictine monk is legendary for 'inventing' Champagne.",
+                "answer": "Dom Perignon",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "A Nebuchadnezzar bottle holds the equivalent of this many standard bottles.",
+                "answer": "20",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This wire cage fits over the cork of a champagne bottle.",
+                "answer": "Muselet",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Champagne is primarily made from Pinot Noir, Pinot Meunier, and this white grape.",
+                "answer": "Chardonnay",
+                "type": "text"
+            }
+        ],
+        "Pop Culture": [
+            {
+                "value": 100,
+                "clue": "This singer is known as the Queen of Pop.",
+                "answer": "Madonna",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Example of a reality TV family.",
+                "answer": "Kardashians",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The MCU stands for Marvel ____ Universe.",
+                "answer": "Cinematic",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This sitcom features six friends living in NYC.",
+                "answer": "Friends",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Beyonce was a member of this girl group.",
+                "answer": "Destiny's Child",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This platform features short-form videos.",
+                "answer": "TikTok",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "He plays Iron Man in the movies.",
+                "answer": "Robert Downey Jr.",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Taylor Swift's fans are called this.",
+                "answer": "Swifties",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Game of Thrones is based on books by George R.R. ____.",
+                "answer": "Martin",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This K-Pop group has a massive global following called ARMY.",
+                "answer": "BTS",
+                "type": "text"
+            }
+        ]
+    },
+    "round_2": {
+        "General Science": [
+            {
+                "value": 100,
+                "clue": "This planet is known as the Red Planet.",
+                "answer": "Mars",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "H2O is the chemical formula for this liquid.",
+                "answer": "Water",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This force keeps us on the ground.",
+                "answer": "Gravity",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The nucleus of an atom contains protons and these neutral particles.",
+                "answer": "Neutrons",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Au is the symbol for this element.",
+                "answer": "Gold",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This gas is essential for human respiration.",
+                "answer": "Oxygen",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The speed of light is approximately 300,000 kilometers per ____.",
+                "answer": "Second",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "This organ pumps blood through the body.",
+                "answer": "Heart",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "The hard outer shell of an insect is called an ____.",
+                "answer": "Exoskeleton",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This scientist developed the theory of relativity.",
+                "answer": "Einstein",
+                "type": "text"
+            }
+        ],
+        "World History": [
+            {
+                "value": 100,
+                "clue": "He was the first Emperor of Rome.",
+                "answer": "Augustus",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Pyramids of Giza are located in this country.",
+                "answer": "Egypt",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This wall in China is visible from space (myth, but famous).",
+                "answer": "Great Wall",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Magna Carta was signed in this year.",
+                "answer": "1215",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Joan of Arc was a heroine of this country.",
+                "answer": "France",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This ship sank on its maiden voyage in 1912.",
+                "answer": "Titanic",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The Berlin Wall fell in this year.",
+                "answer": "1989",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Cleopatra was the last active ruler of this kingdom.",
+                "answer": "Ptolemaic Egypt",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This pandemic killed millions in the 14th century.",
+                "answer": "Black Death / Plague",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Nelson Mandela was the first black president of this country.",
+                "answer": "South Africa",
+                "type": "text"
+            }
+        ],
+        "Geography": [
+            {
+                "value": 100,
+                "clue": "This is the largest continent.",
+                "answer": "Asia",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Amazon Rainforest is primarily in this country.",
+                "answer": "Brazil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This river is the longest in the world.",
+                "answer": "Nile (or Amazon)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Canberra is the capital of this country.",
+                "answer": "Australia",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Mount Everest is located in this mountain range.",
+                "answer": "Himalayas",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This U.S. state has the longest coastline.",
+                "answer": "Alaska",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "This canal connects the Atlantic and Pacific Oceans.",
+                "answer": "Panama Canal",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "The Sahara Desert is located on this continent.",
+                "answer": "Africa",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This European country is shaped like a boot.",
+                "answer": "Italy",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Tokyo is the capital of this island nation.",
+                "answer": "Japan",
+                "type": "text"
+            }
+        ],
+        "Literature": [
+            {
+                "value": 100,
+                "clue": "He wrote Romeo and Juliet.",
+                "answer": "Shakespeare",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This wizard boy attends Hogwarts.",
+                "answer": "Harry Potter",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Katniss Everdeen is the heroine of this trilogy.",
+                "answer": "Hunger Games",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Moby Dick is a giant white ____.",
+                "answer": "Whale",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Sherlock Holmes lives at 221B ____ Street.",
+                "answer": "Baker",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "Gatsby loved this woman in Fitzgerald's novel.",
+                "answer": "Daisy",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "Frankenstein created a ____.",
+                "answer": "Monster",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Bilbo Baggins finds a magic ring in this book.",
+                "answer": "The Hobbit",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Dracula comes from this region in Romania.",
+                "answer": "Transylvania",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Jane Austen wrote Pride and ____.",
+                "answer": "Prejudice",
+                "type": "text"
+            }
+        ],
+        "Sports Mix": [
+            {
+                "value": 100,
+                "clue": "This sport uses a shuttlecock.",
+                "answer": "Badminton",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "A marathon is ____ miles long.",
+                "answer": "26.2",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "In tennis, a score of zero is called this.",
+                "answer": "Love",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Super Bowl is the championship of this league.",
+                "answer": "NFL",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Michael Jordan played for this Chicago team.",
+                "answer": "Bulls",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "A strike in bowling is knocking down ____ pins.",
+                "answer": "Ten",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The World Cup relates to this sport.",
+                "answer": "Soccer / Football",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Tiger Woods is a famous ____.",
+                "answer": "Golfer",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This annual bike race takes place in France.",
+                "answer": "Tour de France",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Muhammad Ali was a champion in this sport.",
+                "answer": "Boxing",
+                "type": "text"
+            }
+        ]
+    },
+    "final_jeopardy": {
+        "category": "Pop Culture",
+        "clue": "He plays Iron Man in the movies.",
+        "answer": "Robert Downey Jr.",
+        "type": "text"
+    }
+}

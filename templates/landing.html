@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tap & Table Jeopardy - Select Role</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=9">
+
+<body class="page-landing">
+    /* Inherit from style.css but center content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000;
+    /* Explicitly use the new set image */
+    background-image: url("{{ url_for('static', filename='bg/bg_jeopardy_set.png') }}");
+    background-size: cover;
+    background-position: center;
+    }
+
+    .logo-container {
+    margin-bottom: 20px;
+    }
+
+    .logo-container img {
+    max-width: 300px;
+    height: auto;
+    }
+
+    h1 {
+    /* Hidden via font size 0 or display none if logo is enough, or styled */
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    color: gold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px #000;
+    margin-bottom: 40px;
+    display: none;
+    /* Logo says it all */
+    }
+
+    .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    button {
+    width: 300px;
+    /* Specific to landing */
+    }
+
+    .host-btn {
+    background: #991b1b;
+    border-color: #ef4444;
+    color: white;
+    }
+    </style>
+    </head>
+
+    <body>
+        <div class="landing-container">
+            <!-- Logo removed as per user request to rely on background visualization -->
+            <h1
+                style="font-family: 'Oswald', sans-serif; font-size: 3rem; margin-bottom: 40px; text-shadow: 2px 2px 4px #000; display: none;">
+                Tap & Table Jeopardy</h1>
+
+            <div class="menu-grid">
+                <a href="/join"><button>Join Game (Phone)</button></a>
+                <a href="/board"><button>Main Board (TV)</button></a>
+                <a href="/host"><button class="host-btn">Host Controller</button></a>
+            </div>
+    </body>
+
+</html>

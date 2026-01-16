@@ -1,0 +1,614 @@
+{
+    "title": "Week 46 (Nov 17): Veterans Day",
+    "theme": {
+        "--bg-image": "url('/static/bg/bg_jeopardy_set.png')",
+        "--bg-color": "#000000",
+        "--bg-overlay": "radial-gradient(circle at center, rgba(6, 12, 233, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)",
+        "--glass-bg": "rgba(6, 12, 233, 0.3)",
+        "--border-color": "rgba(255, 255, 255, 0.1)",
+        "--accent-color": "#FFCC00",
+        "--text-color": "#FFFFFF",
+        "--button-bg": "rgba(6, 12, 233, 0.8)",
+        "--button-shadow": "none"
+    },
+    "round_1": {
+        "Military Ranks": [
+            {
+                "value": 100,
+                "clue": "This is the lowest rank in the US Army.",
+                "answer": "Private",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "A Captain outranks this 'Left-tenant'.",
+                "answer": "Lieutenant",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This rank wears a single star.",
+                "answer": "General (Brigadier)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The highest enlisted rank in the Navy is Master Chief Petty ____.",
+                "answer": "Officer",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "George Washington was posthumously promoted to General of the ____.",
+                "answer": "Armies",
+                "type": "text"
+            }
+        ],
+        "Geography": [
+            {
+                "value": 100,
+                "clue": "This is the largest continent.",
+                "answer": "Asia",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Amazon Rainforest is primarily in this country.",
+                "answer": "Brazil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This river is the longest in the world.",
+                "answer": "Nile (or Amazon)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Canberra is the capital of this country.",
+                "answer": "Australia",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Mount Everest is located in this mountain range.",
+                "answer": "Himalayas",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This U.S. state has the longest coastline.",
+                "answer": "Alaska",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "This canal connects the Atlantic and Pacific Oceans.",
+                "answer": "Panama Canal",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "The Sahara Desert is located on this continent.",
+                "answer": "Africa",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This European country is shaped like a boot.",
+                "answer": "Italy",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Tokyo is the capital of this island nation.",
+                "answer": "Japan",
+                "type": "text"
+            }
+        ],
+        "General Science": [
+            {
+                "value": 100,
+                "clue": "This planet is known as the Red Planet.",
+                "answer": "Mars",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "H2O is the chemical formula for this liquid.",
+                "answer": "Water",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This force keeps us on the ground.",
+                "answer": "Gravity",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The nucleus of an atom contains protons and these neutral particles.",
+                "answer": "Neutrons",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Au is the symbol for this element.",
+                "answer": "Gold",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This gas is essential for human respiration.",
+                "answer": "Oxygen",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The speed of light is approximately 300,000 kilometers per ____.",
+                "answer": "Second",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "This organ pumps blood through the body.",
+                "answer": "Heart",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "The hard outer shell of an insect is called an ____.",
+                "answer": "Exoskeleton",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This scientist developed the theory of relativity.",
+                "answer": "Einstein",
+                "type": "text"
+            }
+        ],
+        "Literature": [
+            {
+                "value": 100,
+                "clue": "He wrote Romeo and Juliet.",
+                "answer": "Shakespeare",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This wizard boy attends Hogwarts.",
+                "answer": "Harry Potter",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Katniss Everdeen is the heroine of this trilogy.",
+                "answer": "Hunger Games",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Moby Dick is a giant white ____.",
+                "answer": "Whale",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Sherlock Holmes lives at 221B ____ Street.",
+                "answer": "Baker",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "Gatsby loved this woman in Fitzgerald's novel.",
+                "answer": "Daisy",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "Frankenstein created a ____.",
+                "answer": "Monster",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Bilbo Baggins finds a magic ring in this book.",
+                "answer": "The Hobbit",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Dracula comes from this region in Romania.",
+                "answer": "Transylvania",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Jane Austen wrote Pride and ____.",
+                "answer": "Prejudice",
+                "type": "text"
+            }
+        ],
+        "World History": [
+            {
+                "value": 100,
+                "clue": "He was the first Emperor of Rome.",
+                "answer": "Augustus",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Pyramids of Giza are located in this country.",
+                "answer": "Egypt",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This wall in China is visible from space (myth, but famous).",
+                "answer": "Great Wall",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Magna Carta was signed in this year.",
+                "answer": "1215",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Joan of Arc was a heroine of this country.",
+                "answer": "France",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This ship sank on its maiden voyage in 1912.",
+                "answer": "Titanic",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The Berlin Wall fell in this year.",
+                "answer": "1989",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Cleopatra was the last active ruler of this kingdom.",
+                "answer": "Ptolemaic Egypt",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This pandemic killed millions in the 14th century.",
+                "answer": "Black Death / Plague",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Nelson Mandela was the first black president of this country.",
+                "answer": "South Africa",
+                "type": "text"
+            }
+        ]
+    },
+    "round_2": {
+        "Pop Culture": [
+            {
+                "value": 100,
+                "clue": "This singer is known as the Queen of Pop.",
+                "answer": "Madonna",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Example of a reality TV family.",
+                "answer": "Kardashians",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The MCU stands for Marvel ____ Universe.",
+                "answer": "Cinematic",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This sitcom features six friends living in NYC.",
+                "answer": "Friends",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Beyonce was a member of this girl group.",
+                "answer": "Destiny's Child",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This platform features short-form videos.",
+                "answer": "TikTok",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "He plays Iron Man in the movies.",
+                "answer": "Robert Downey Jr.",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Taylor Swift's fans are called this.",
+                "answer": "Swifties",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Game of Thrones is based on books by George R.R. ____.",
+                "answer": "Martin",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This K-Pop group has a massive global following called ARMY.",
+                "answer": "BTS",
+                "type": "text"
+            }
+        ],
+        "Sports Mix": [
+            {
+                "value": 100,
+                "clue": "This sport uses a shuttlecock.",
+                "answer": "Badminton",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "A marathon is ____ miles long.",
+                "answer": "26.2",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "In tennis, a score of zero is called this.",
+                "answer": "Love",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Super Bowl is the championship of this league.",
+                "answer": "NFL",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Michael Jordan played for this Chicago team.",
+                "answer": "Bulls",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "A strike in bowling is knocking down ____ pins.",
+                "answer": "Ten",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The World Cup relates to this sport.",
+                "answer": "Soccer / Football",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Tiger Woods is a famous ____.",
+                "answer": "Golfer",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This annual bike race takes place in France.",
+                "answer": "Tour de France",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Muhammad Ali was a champion in this sport.",
+                "answer": "Boxing",
+                "type": "text"
+            }
+        ],
+        "Food & Drink": [
+            {
+                "value": 100,
+                "clue": "Sushi traditionally comes from this country.",
+                "answer": "Japan",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This red fruit is technically a berry.",
+                "answer": "Tomato / Watermelon",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Guacamole is made from this fruit.",
+                "answer": "Avocado",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This Italian dish involves layers of pasta, cheese, and sauce.",
+                "answer": "Lasagna",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Chardonnay is a type of ____ wine.",
+                "answer": "White",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "Tofu is made from these beans.",
+                "answer": "Soybeans",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "Saffron is the most expensive ____.",
+                "answer": "Spice",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Hummus is made from these peas.",
+                "answer": "Chickpeas",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "A barista makes this beverage.",
+                "answer": "Coffee / Espresso",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Haggis is a traditional dish from this country.",
+                "answer": "Scotland",
+                "type": "text"
+            }
+        ],
+        "Potpourri": [
+            {
+                "value": 100,
+                "clue": "The color of a yield sign.",
+                "answer": "Yellow",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Number of days in a leap year.",
+                "answer": "366",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The currency of the UK.",
+                "answer": "Pound",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Roman numeral V stands for.",
+                "answer": "Five",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "A group of crows is called a ____.",
+                "answer": "Murder",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "The primary language of Brazil.",
+                "answer": "Portuguese",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The fear of spiders.",
+                "answer": "Arachnophobia",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "This chess piece can move in any direction.",
+                "answer": "Queen",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "The dot over the letter 'i' is called a ____.",
+                "answer": "Tittle",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "The capital of California.",
+                "answer": "Sacramento",
+                "type": "text"
+            }
+        ],
+        "Geography": [
+            {
+                "value": 100,
+                "clue": "This is the largest continent.",
+                "answer": "Asia",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Amazon Rainforest is primarily in this country.",
+                "answer": "Brazil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This river is the longest in the world.",
+                "answer": "Nile (or Amazon)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Canberra is the capital of this country.",
+                "answer": "Australia",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Mount Everest is located in this mountain range.",
+                "answer": "Himalayas",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This U.S. state has the longest coastline.",
+                "answer": "Alaska",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "This canal connects the Atlantic and Pacific Oceans.",
+                "answer": "Panama Canal",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "The Sahara Desert is located on this continent.",
+                "answer": "Africa",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This European country is shaped like a boot.",
+                "answer": "Italy",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Tokyo is the capital of this island nation.",
+                "answer": "Japan",
+                "type": "text"
+            }
+        ]
+    },
+    "final_jeopardy": {
+        "category": "Geography",
+        "clue": "Canberra is the capital of this country.",
+        "answer": "Australia",
+        "type": "text"
+    }
+}

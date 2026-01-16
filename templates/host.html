@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Host Controller</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=9">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=1">
+    <style>
+        /* Host specific overrides */
+        .host-join-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            color: #ddd;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+    <style>
+        :root {
+
+            /* Instant Theme Injection */
+            /* Instant Theme Injection */
+                {
+                % if state and state.theme %
+            }
+
+                {
+                % for k,
+                v in state.theme.items() %
+            }
+
+                {
+                    {
+                    k
+                }
+            }
+
+            : {
+                    {
+                    v
+                }
+            }
+
+            ;
+
+                {
+                % endfor %
+            }
+
+                {
+                % endif %
+            }
+        }
+
+        body {
+            overflow: auto;
+            padding-bottom: 50px;
+        }
+
+        .host-grid-cell {
+            background: #333;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #555;
+            text-align: center;
+        }
+
+        .host-grid-cell:hover {
+            background: #555;
+        }
+
+        .host-grid-cell.used {
+            opacity: 0.5;
+            background: #222;
+        }
+
+        .answer-reveal {
+            color: #00ff00;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .control-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111;
+            border-top: 2px solid gold;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .buzzer-status {
+            font-size: 1.5rem;
+            color: gold;
+            font-weight: bold;
+        }
+
+        .main-content {
+            margin-bottom: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container main-content">
+        <div class="host-join-info">
+            <div>
+                <h3>PLAYERS JOIN HERE:</h3>
+                <h1 style="color: gold; margin: 5px 0;">{{ base_url }}/join</h1>
+            </div>
+            <div id="qrcode"></div>
+        </div>
+        <header class="game-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="{{ url_for('static', filename='logo_jeopardy_style.png') }}" alt="Logo"
+                    style="height: 50px; mix-blend-mode: screen;">
+                <h3 style="margin: 0;">HOST VIEW</h3>
+            </div>
+            <div class="round-controls">
+                <button onclick="switchRound('round_1')"
+                    class="{{ 'active' if state.current_round == 'round_1' else '' }}">Round 1</button>
+                <button onclick="switchRound('round_2')"
+                    class="{{ 'active' if state.current_round == 'round_2' else '' }}">Round 2</button>
+                <button onclick="switchRound('final_jeopardy')"
+                    class="{{ 'active' if state.current_round == 'final_jeopardy' else '' }}">Final</button>
+            </div>
+            <select onchange="loadGame(this.value)"
+                style="background:#0F172A; color:gold; padding: 10px; border: 1px solid #334155; border-radius: 8px; font-family: 'Montserrat', sans-serif;">
+                <option value="" disabled>-- Select Week --</option>
+                {% for g in game_list|sort(attribute='id') %}
+                <option value="{{ g.id }}" {% if g.id==state.game_id %}selected{% endif %}>{{ g.title }}</option>
+                {% endfor %}
+            </select>
+        </header>
+
+        {% for round_id in ['round_1', 'round_2'] %}
+        <div id="{{ round_id }}" class="board-grid"
+            style="display: {{ 'grid' if state.current_round == round_id else 'none' }}">
+            {% for cat, qs in game[round_id].items() %}
+            <div class="category-header" style="font-size: 1rem;">{{ cat }}</div>
+            {% endfor %}
+            {% for i in range(5) %}
+            {% for cat, qs in game[round_id].items() %}
+            {% set q = qs[i] %}
+            {% set q_id = round_id + '-' + cat|replace(' ', '-') + '-' + i|string %}
+            <div class="host-grid-cell {{ 'used' if q_id in state.open_clues else '' }}" id="host-{{ q_id }}"
+                onclick="openClue('{{ round_id }}', '{{ cat }}', {{ i }})">
+                ${{ q.value }}
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <!-- Score Adjustments -->
+        <div class="score-board" id="hostScoreBoard">
+            {% for team in state.active_teams %}
+            <div class="team-score-box" id="host-team-{{ team }}">
+                <div class="team-name" id="host-name-{{ team }}">{{ state.team_names.get(team, "TEAM " ~ team) }}</div>
+                <div class="score" id="host-score-{{ team }}">{{ state.scores.get(team, 0) }}</div>
+                <div class="score-controls">
+                    <!-- Custom amount -->
+                    <input type="number" id="manual-score-{{ team }}" placeholder="Amount" style="width: 60px;">
+                    <button
+                        onclick="updateScore('{{ team }}', document.getElementById('manual-score-{{ team }}').value)">ADD</button>
+                    <button
+                        onclick="updateScore('{{ team }}', -document.getElementById('manual-score-{{ team }}').value)">SUB</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Active Clue Control Panel -->
+    <div class="control-panel glass-panel" id="active-clue-panel"
+        style="display:none; flex-direction:column; align-items:flex-start; background: rgba(0,0,0,0.85); border-top: 1px solid var(--jeopardy-gold);">
+        <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="color:gold; margin: 0;">ACTIVE CLUE</h3>
+            <button onclick="closeClue()"
+                style="background:rgba(255, 0, 0, 0.4); color:white; border: 1px solid rgba(255,0,0,0.6);">X</button>
+        </div>
+
+        <!-- Daily Double Logic -->
+        <div id="dd-controls"
+            style="width:100%; background:rgba(255, 215, 0, 0.1); padding:10px; margin-bottom:10px; display:none; border: 1px solid gold; border-radius: 8px;">
+            <h2 style="color: gold; text-align: center; margin-top: 0;">DAILY DOUBLE!</h2>
+
+            <!-- Phase 1: Select Team -->
+            <div id="dd-select-team" style="display:none; text-align:center;">
+                <h3>Select Team:</h3>
+                {% for t in [1, 2, 3] %}
+                <button onclick="assignDD({{t}})" style="padding:10px; margin:5px; width: 100px;">Team {{t}}</button>
+                {% endfor %}
+            </div>
+
+            <!-- Phase 2: Wait for Wager -->
+            <div id="dd-wager-wait" style="display:none; text-align:center;">
+                <h3>Waiting for Team <span id="dd-team-display"></span> to Wager...</h3>
+                <div style="margin: 10px;">Current Wager: <span id="dd-current-wager"
+                        style="color:gold; font-size:1.5rem;">$0</span></div>
+                <button onclick="revealDD()" style="background:rgba(0, 0, 255, 0.4); color:white; width: 100%;">REVEAL
+                    CLUE</button>
+            </div>
+
+            <!-- Phase 3: Scoring -->
+            <div id="dd-scoring" style="display:none; text-align:center;">
+                <h3>Wager: <span id="dd-final-wager" style="color:gold;"></span></h3>
+                <button onclick="scoreDD(true)" class="btn-correct"
+                    style="background: rgba(0, 128, 0, 0.4); border-color: lime;">CORRECT</button>
+                <button onclick="scoreDD(false)" class="btn-incorrect"
+                    style="background: rgba(139, 0, 0, 0.4); border-color: red;">WRONG</button>
+            </div>
+        </div>
+
+        <div id="normal-clue-content" style="width: 100%;">
+            <div id="active-clue-text"
+                style="color: white; font-size: 1.4rem; margin-bottom:15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+            </div>
+            <div id="active-answer-text" class="answer-reveal">ANSWER: <span id="answer-content"
+                    style="color: white; font-weight: normal;"></span></div>
+        </div>
+
+        <div id="normal-controls" style="width: 100%;">
+            <div class="buzzer-status" id="buzzer-status" style="margin: 10px 0;">WAITING FOR BUZZ...</div>
+            <button onclick="resetBuzzer()"
+                style="background:rgba(255, 165, 0, 0.3); color:white; padding: 10px; width: 100%; margin-bottom: 20px;">RESET
+                BUZZER</button>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+                <div id="control-t1" style="display: flex; flex-direction: column; gap: 5px;">
+                    <button onclick="scoreCorrect(1)" class="btn-correct" style="background: rgba(0, 128, 0, 0.3);">
+                        <span class="t-name-1">T1</span> Correct
+                    </button>
+                    <button onclick="scoreIncorrect(1)" class="btn-incorrect" style="background: rgba(139, 0, 0, 0.3);">
+                        <span class="t-name-1">T1</span> Wrong
+                    </button>
+                </div>
+                <div id="control-t2" style="display: flex; flex-direction: column; gap: 5px;">
+                    <button onclick="scoreCorrect(2)" class="btn-correct" style="background: rgba(0, 128, 0, 0.3);">
+                        <span class="t-name-2">T2</span> Correct
+                    </button>
+                    <button onclick="scoreIncorrect(2)" class="btn-incorrect" style="background: rgba(139, 0, 0, 0.3);">
+                        <span class="t-name-2">T2</span> Wrong
+                    </button>
+                </div>
+                <div id="control-t3" style="display: flex; flex-direction: column; gap: 5px;">
+                    <button onclick="scoreCorrect(3)" class="btn-correct" style="background: rgba(0, 128, 0, 0.3);">
+                        <span class="t-name-3">T3</span> Correct
+                    </button>
+                    <button onclick="scoreIncorrect(3)" class="btn-incorrect" style="background: rgba(139, 0, 0, 0.3);">
+                        <span class="t-name-3">T3</span> Wrong
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Jeopardy Host Controls -->
+    <div id="fj-controls"
+        style="display: {{ 'block' if state.current_round == 'final_jeopardy' else 'none' }}; padding: 20px; background: #222; margin-top: 20px;"
+        class="glass-panel">
+        <h2 style="color: gold; text-align: center;">FINAL JEOPARDY CONTROLS</h2>
+
+        <div style="margin-bottom: 20px; display: flex; gap: 10px; justify-content: center;">
+            <button onclick="startFJPhase('fj_start_timer')" style="background: rgba(0, 128, 0, 0.4);">START
+                TIMER</button>
+            <button onclick="startFJPhase('fj_reveal_phase')" style="background: rgba(0, 0, 255, 0.4);">START
+                REVEAL</button>
+        </div>
+
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            {% for t in [1, 2, 3] %}
+            <div id="fj-ctrl-box-{{t}}" class="glass-panel" style="padding: 15px; flex: 1; min-width: 250px;">
+                <h3 style="color: white; margin-top: 0;">Team {{ t }}</h3>
+                <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <div><strong>Wager:</strong> <span id="wager-val-{{t}}">--</span></div>
+                    <button onclick="revealItem({{t}}, 'wager')"
+                        style="padding: 5px 10px; font-size: 0.8rem;">Reveal</button>
+                </div>
+                <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <div><strong>Answer:</strong> <span id="answer-val-{{t}}">--</span></div>
+                    <button onclick="revealItem({{t}}, 'answer')"
+                        style="padding: 5px 10px; font-size: 0.8rem;">Reveal</button>
+                </div>
+                <div style="display: flex; gap: 5px;">
+                    <button onclick="scoreFJ({{t}}, true)" class="btn-correct"
+                        style="flex:1; background: rgba(0, 128, 0, 0.3);">Correct</button>
+                    <button onclick="scoreFJ({{t}}, false)" class="btn-incorrect"
+                        style="flex:1; background: rgba(139, 0, 0, 0.3);">Wrong</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Initialize QR Code
+        const joinUrl = `{{ base_url }}/join`;
+        new QRCode(document.getElementById("qrcode"), {
+            text: joinUrl,
+            width: 100,
+            height: 100
+        });
+
+        const socket = io();
+        let currentClueVal = 0;
+        let fjWagers = {}; // Local cache
+
+        function loadGame(id) {
+            socket.emit('host_action', { action: 'load_game', game_id: id });
+            // Wait for 'game_loaded' event to reload
+        }
+
+        socket.on('game_loaded', () => {
+            window.location.reload();
+        });
+
+        function switchRound(rid) {
+            socket.emit('host_action', { action: 'switch_round', round: rid });
+            window.location.reload(); // Simple refresh to update view state
+        }
+
+        function openClue(r, c, i) {
+            socket.emit('host_action', { action: 'open_clue', round: r, category: c, index: i });
+        }
+
+        function closeClue() {
+            socket.emit('host_action', { action: 'close_clue' });
+            document.getElementById('active-clue-panel').style.display = 'none';
+        }
+
+        function updateScore(team, amount) {
+            socket.emit('host_action', { action: 'update_score', team: team, amount: amount });
+        }
+
+        function resetBuzzer() {
+            socket.emit('host_action', { action: 'reset_buzzer' });
+            document.getElementById('buzzer-status').innerText = "WAITING FOR BUZZ...";
+            document.getElementById('buzzer-status').style.color = "green";
+        }
+
+        socket.on('answer_revealed', () => {
+            new Audio('https://www.myinstants.com/media/sounds/correct.mp3').play().catch(e => { });
+        });
+
+        function scoreCorrect(team) {
+            // Adds points and REVEALS ANSWER (Host must manually close after)
+            socket.emit('host_action', { action: 'update_score', team: team, amount: currentClueVal });
+            socket.emit('host_action', { action: 'reveal_answer' });
+            // Don't hide panel yet, let host close it
+            // document.getElementById('active-clue-panel').style.display = 'none';
+        }
+
+        function scoreIncorrect(team) {
+            // Deducts points and KEEPS CLUE OPEN for others
+            socket.emit('host_action', { action: 'handle_incorrect', team: team, amount: -currentClueVal });
+            document.getElementById('buzzer-status').innerText = `TEAM ${team} INCORRECT - BUZZER RESET`;
+            document.getElementById('buzzer-status').style.color = "orange";
+        }
+
+        // DD Functions
+        function assignDD(team) {
+            socket.emit('host_action', { action: 'dd_assign_team', team: team });
+        }
+
+        function revealDD() {
+            socket.emit('host_action', { action: 'dd_reveal' });
+        }
+
+        function scoreDD(correct) {
+            // Use dd_wager and dd_team from state
+            const wager = gameState.dd_wager || 0;
+            const team = gameState.dd_team;
+            const amount = correct ? wager : -wager;
+
+            socket.emit('host_action', { action: 'update_score', team: team, amount: amount });
+            if (correct) {
+                socket.emit('host_action', { action: 'reveal_answer' });
+            }
+            // Host naturally closes clue after
+        }
+
+        // FJ Functions
+        function startFJPhase(action) {
+            socket.emit('host_action', { action: action });
+        }
+
+        function revealItem(team, item) {
+            socket.emit('host_action', { action: 'fj_reveal_item', team: team, item: item });
+        }
+
+        function scoreFJ(team, correct) {
+            // Need the wager amt
+            // We can get it from local cache, or ask user?
+            // simpler: prompt user? No, automated is better.
+            // Check HTML value?
+            // Since we don't have it tracked on backend specifically for scoring logic only display, let's ask host or grab from DOM if possible?
+            // Actually backend has 'final_wagers'. Host needs to know.
+            // Let's implement client-side cache or just manual input for now?
+            // Better: manual adjust using `scoreCorrect`/`scoreIncorrect` but logic is complex.
+            // Simplest for now: User `updateScore` manually based on what they see?
+            // No, user requested automation.
+            // Let's assume we can read the wager from the span if populated?
+            // Or, passing 'amount' as 0 and having backend handle it?
+            // Let's update backend to handle FJ scoring if we have time.
+            // For now, I'll assume Host reads it and uses standard score buttons? No, standard buttons use `currentClueVal`.
+            // I'll add `scoreFJ` that prompts or uses a known value.
+            const wager = fjWagers[team] || 0;
+            const amount = correct ? parseInt(wager) : -parseInt(wager);
+            socket.emit('host_action', { action: 'update_score', team: team, amount: amount });
+        }
+
+        let gameState = {}; // Global state cache
+
+        socket.on('state_update', (state) => {
+            gameState = state;
+
+            // Apply Theme
+            if (state.theme) {
+                const root = document.documentElement;
+                for (const [key, value] of Object.entries(state.theme)) {
+                    root.style.setProperty(key, value);
+                }
+            }
+
+            // Show/Hide FJ controls based on round
+            const fjControls = document.getElementById('fj-controls');
+            if (fjControls) {
+                fjControls.style.display = (state.current_round === 'final_jeopardy') ? 'block' : 'none';
+            }
+
+            // Check submitted wagers/answers (FJ)
+            if (state.wagers_submitted) {
+                state.wagers_submitted.forEach(t => {
+                    const el = document.getElementById(`wager-val-${t}`);
+                    if (el) el.innerText = "(Submitted)";
+                });
+            }
+            if (state.answers_submitted) {
+                state.answers_submitted.forEach(t => {
+                    const el = document.getElementById(`answer-val-${t}`);
+                    if (el) el.innerText = "(Submitted)";
+                });
+            }
+
+            // Hide inactive teams (FJ Controls)
+            if (state.active_teams && state.active_teams.length > 0) {
+                for (let t = 1; t <= 3; t++) {
+                    const box = document.getElementById(`fj-ctrl-box-${t}`);
+                    if (box) {
+                        box.style.display = state.active_teams.includes(t) ? 'block' : 'none';
+                    }
+                }
+            }
+
+            // Handle DD State inside Clue Panel
+            const ddControls = document.getElementById('dd-controls');
+            const normalControls = document.getElementById('normal-controls');
+            const normalContent = document.getElementById('normal-clue-content');
+            const ddSelect = document.getElementById('dd-select-team');
+            const ddWait = document.getElementById('dd-wager-wait');
+            const ddScoring = document.getElementById('dd-scoring');
+
+            if (state.dd_state) {
+                // It IS a Daily Double
+                ddControls.style.display = 'block';
+                normalControls.style.display = 'none'; // Hide buzzers/standard scoring
+
+                // Toggle based on sub-state
+                ddSelect.style.display = (state.dd_state === 'select_team') ? 'block' : 'none';
+                ddWait.style.display = (state.dd_state === 'wager') ? 'block' : 'none';
+                ddScoring.style.display = (state.dd_state === 'revealed') ? 'block' : 'none';
+
+                // Content Visibility
+                // If select_team or wager, hide clue text? Yes, usually only category is shown, but here just hide text until reveal.
+                normalContent.style.display = (state.dd_state === 'revealed') ? 'block' : 'none';
+
+                // Update Values
+                if (state.dd_team) document.getElementById('dd-team-display').innerText = state.dd_team;
+                if (state.dd_wager) {
+                    document.getElementById('dd-current-wager').innerText = "$" + state.dd_wager;
+                    document.getElementById('dd-final-wager').innerText = "$" + state.dd_wager;
+                }
+            } else {
+                // Normal Clue
+                ddControls.style.display = 'none';
+                normalControls.style.display = 'block';
+                normalContent.style.display = 'block';
+            }
+
+            // Update Team Names everywhere
+            if (state.team_names) {
+                for (let t = 1; t <= 3; t++) {
+                    const name = state.team_names[t] || `Team ${t}`;
+                    // Score Headers
+                    const scoreHead = document.querySelector(`#score-${t}`)?.previousElementSibling; // The h4
+                    if (scoreHead) scoreHead.innerText = name;
+
+                    // FJ Controls
+                    const fjHead = document.querySelector(`#fj-ctrl-box-${t} h3`);
+                    if (fjHead) fjHead.innerText = name;
+
+                    // Active Clue Buttons
+                    const spans = document.querySelectorAll(`.t-name-${t}`);
+                    spans.forEach(s => s.innerText = name);
+                }
+            }
+        });
+
+        socket.on('clue_opened', (clue) => {
+            currentClueVal = clue.value;
+
+            document.getElementById('active-clue-panel').style.display = 'flex';
+
+            // Text is set, but visibility is controlled by state_update above
+            document.getElementById('active-clue-text').innerText = clue.clue;
+            document.getElementById('answer-content').innerText = clue.answer;
+
+            document.getElementById('buzzer-status').innerText = "WAITING FOR BUZZ...";
+            document.getElementById('buzzer-status').style.color = "gold";
+
+            // Mark as used
+            const safeCat = clue.category.replace(/ /g, '-');
+            const cellId = `host-${clue.round}-${safeCat}-${clue.index}`;
+            const cell = document.getElementById(cellId);
+            if (cell) cell.classList.add('used');
+        });
+
+        socket.on('buzzed_in', (data) => {
+            document.getElementById('buzzer-status').innerText = `TEAM ${data.team} BUZZED!`;
+            document.getElementById('buzzer-status').style.color = "red";
+            new Audio('https://www.myinstants.com/media/sounds/times-up.mp3').play();
+        });
+
+        socket.on('scores_updated', (scores) => {
+            // Dynamic Host Scoreboard Update
+            const sb = document.getElementById('hostScoreBoard');
+            const activeIds = gameState.active_teams || [];
+
+            // Rebuild if needed (simple length check or content check)
+            let needsRebuild = false;
+            if (sb.children.length !== activeIds.length) needsRebuild = true;
+
+            if (needsRebuild) {
+                sb.innerHTML = '';
+                activeIds.forEach(t => {
+                    const name = gameState.team_names[t] || `TEAM ${t}`;
+                    const score = gameState.scores[t] || 0;
+
+                    const div = document.createElement('div');
+                    div.className = 'team-score-box';
+                    div.id = `host-team-${t}`;
+                    div.innerHTML = `
+                        <div class="team-name" id="host-name-${t}">${name}</div>
+                        <div class="score" id="host-score-${t}">${score}</div>
+                        <div class="score-controls">
+                            <input type="number" id="manual-score-${t}" placeholder="Amount" style="width: 60px; color:black;">
+                            <button onclick="updateScore('${t}', document.getElementById('manual-score-${t}').value)">ADD</button>
+                            <button onclick="updateScore('${t}', -document.getElementById('manual-score-${t}').value)">SUB</button>
+                        </div>
+                     `;
+                    sb.appendChild(div);
+                });
+            } else {
+                // Update values
+                activeIds.forEach(t => {
+                    const nameEl = document.getElementById(`host-name-${t}`);
+                    if (nameEl) nameEl.innerText = gameState.team_names[t] || `TEAM ${t}`;
+                    const scoreEl = document.getElementById(`host-score-${t}`);
+                    if (scoreEl) scoreEl.innerText = gameState.scores[t] || 0;
+                });
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,620 @@
+/* Classic Jeopardy Aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Oswald:wght@500;700&display=swap');
+
+:root {
+    /* Classic Colors */
+    --jeopardy-blue: #060CE9;
+    /* The iconic screen blue */
+    --jeopardy-dark-blue: #00008b;
+    --jeopardy-gold: #FFCC00;
+    --text-white: #FFFFFF;
+
+    /* Studio/Theme Variables (Overridable by Themes) */
+    --bg-color: #000;
+    --bg-color: #000;
+    /* --bg-image removed: defined per page class */
+
+    /* Fonts */
+    /* Categories & Dollar Amounts: Impact or Oswald (Condensed Sans) */
+    --font-display: 'Oswald', 'Impact', sans-serif;
+    /* Clues: Serif (Korinna-esque) */
+    --font-clue: 'Libre Baskerville', 'Times New Roman', serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-display);
+    background-color: #000;
+    background-color: #000;
+    /* background-image: var(--bg-image); Handled by specific page classes */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* --- Header --- */
+.game-header {
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Removed border-bottom as requested ("black line") */
+    background: rgba(0, 0, 0, 0.5);
+    /* Subtle background for readability */
+}
+
+/* --- Apple Glass / Premium UI --- */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --glass-blur: blur(20px);
+}
+
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+    /* Smooth corners */
+}
+
+/* Modern Apple-style Buttons */
+button,
+.btn-primary,
+.btn-success,
+.btn-danger,
+.menu-btn {
+    background: rgba(255, 255, 255, 0.15);
+    /* Frosted */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    /* Apple curve */
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /* System font for interface */
+    font-weight: 500;
+    text-transform: none;
+    /* Apple doesn't typically shout */
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-shadow: none;
+    /* Clean text */
+}
+
+button:hover,
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    /* Brighter frost */
+    transform: translateY(-1px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Specific overrides for Game Board to keep Jeopardy Feel but Glassy */
+.category-header {
+    background: rgba(6, 12, 233, 0.6);
+    /* Glassy Blue */
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    /* Keep Brand Font for Game */
+}
+
+.clue-cell {
+    background: rgba(6, 12, 233, 0.6);
+    /* Glassy Blue */
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: 'Oswald', sans-serif;
+    color: #FFCC00;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Logos & Text */
+h1,
+h2,
+h3 {
+    margin: 0;
+    text-transform: uppercase;
+}
+
+h2 {
+    color: white;
+    letter-spacing: 1px;
+}
+
+/* Scoreboard */
+.score-board {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.team {
+    background: #000;
+    border: 2px solid #555;
+    padding: 5px 15px;
+    text-align: center;
+}
+
+.team-name {
+    font-size: 0.8rem;
+    color: #ccc;
+    font-family: var(--font-display);
+}
+
+.score {
+    font-size: 1.8rem;
+    color: #fff;
+    /* White scores usually, or red? Jeopardy uses white on podiums usually */
+    font-family: var(--font-display);
+    font-weight: bold;
+}
+
+/* --- Game Board --- */
+#game-board-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto repeat(5, 1fr);
+    /* Header + 5 rows */
+    gap: 8px;
+    /* Black gaps */
+    background: transparent;
+    /* The gaps color */
+    border: 8px solid black;
+    /* Outer frame */
+    width: 100%;
+    max-width: 1400px;
+    aspect-ratio: 16/9;
+}
+
+/* Player View Header */
+.jeopardy-text-header {
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 3rem;
+    color: #FFFFFF;
+    text-shadow: 4px 4px 0 #000;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 1;
+    z-index: 10;
+    /* Ensure it pops */
+}
+
+/* Landing Page Specifics */
+.landing-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Push to bottom */
+    align-items: center;
+    padding-bottom: 8vh;
+    /* Bottom third area padding */
+    box-sizing: border-box;
+}
+
+.menu-grid {
+    display: flex;
+    flex-direction: column;
+    /* Stack vertically */
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.menu-grid a {
+    width: 100%;
+    text-decoration: none;
+}
+
+.menu-grid button {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.2rem;
+    /* Glass styles inherited from button rule but added specific layout tweaks */
+}
+
+/* Categories */
+.category-header {
+    background: rgba(6, 12, 233, 0.85);
+    /* Semi-transparent Jeopardy Blue */
+    color: white;
+    font-family: var(--font-display);
+    font-size: clamp(0.8rem, 1.3vw, 1.5rem);
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #000;
+    min-height: 80px;
+    border: 2px solid #000;
+    /* Add border definition back specifically for items if grid gap isn't enough */
+}
+
+/* Clue Cells */
+.clue-cell {
+    background: rgba(6, 12, 233, 0.85);
+    /* Semi-transparent Jeopardy Blue */
+    color: var(--jeopardy-gold);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-shadow: 3px 3px 0 #000;
+    transition: background 0.2s;
+}
+
+.clue-cell:hover {
+    background: #1a23f5;
+    /* Slightly lighter blue on hover */
+}
+
+/* Empty/Used Cell */
+.clue-cell.used {
+    background: var(--jeopardy-blue);
+    /* Keep blue background */
+    color: transparent;
+    /* Text disappears */
+    text-shadow: none;
+    pointer-events: none;
+}
+
+/* --- Responsive & Display Fixes --- */
+
+/* 1. Ensure Background Visibility but maintain Text Contrast */
+.app-container {
+    background: rgba(0, 0, 0, 0.4);
+    /* Dark overlay over the studio image */
+    height: 100vh;
+    overflow-y: auto;
+    /* Allow scrolling on mobile if needed */
+}
+
+/* 2. Host View Controls - Make them pop */
+.host-controls {
+    background: rgba(0, 0, 0, 0.9) !important;
+    /* Nearly solid black for control panel readability */
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 1px solid #444;
+}
+
+/* 3. Player (Phone) View Optimization */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+        height: auto;
+        /* Allow content to flow on phone */
+        min-height: 100vh;
+    }
+
+    .big-buzzer {
+        width: 200px;
+        height: 200px;
+        margin: 40px auto;
+        font-size: 1.5rem;
+    }
+
+    /* Stack team selection buttons */
+    .team-select-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .team-select-btn {
+        width: 100%;
+        padding: 20px;
+        font-size: 1.2rem;
+    }
+
+    /* Hide complex header on phone, just show simple status */
+    .game-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* 4. TV Board Grid Fixes */
+#game-board-container {
+    overflow: hidden;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.board-grid {
+    /* Enforce square aspect ratio (5 columns / 6 rows) */
+    aspect-ratio: 5 / 6;
+    height: 100%;
+    /* Fill available vertical space */
+    width: auto;
+    /* Let width be determined by height + aspect ratio */
+    max-width: 98vw;
+    /* Ensure it doesn't overflow horizontally */
+    max-height: none;
+
+    display: grid;
+    /* 5 columns to match existing data (Standard Jeopardy is 6, but our data has 5) */
+    grid-template-columns: repeat(5, 1fr);
+    /* 1 header row + 5 clue rows */
+    grid-template-rows: 15% repeat(5, 1fr);
+
+    gap: 1.5vmin;
+    /* Distinct gap between "screens" */
+    border: none;
+    margin: 0 auto;
+    background: transparent !important;
+    /* No global bg, gaps show studio */
+}
+
+.category-header {
+    background: linear-gradient(180deg, #060CE9 0%, #000088 100%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 5px #000;
+    border: 2px solid #000;
+
+    color: #FFFFFF;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: clamp(1rem, 2.5vmin, 2.5rem);
+    /* Larger, readable font */
+    text-transform: uppercase;
+    text-shadow: 3px 3px 0 #000;
+    /* Strong shadow for readability */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    /* Increased for multi-line */
+    padding: 5px;
+    word-wrap: break-word;
+    /* Ensure wrapping */
+    overflow-wrap: break-word;
+}
+
+.clue-cell {
+    background: linear-gradient(180deg, #060CE9 0%, #000088 100%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 5px #000;
+    border: 2px solid #000;
+
+    color: #D69F4C;
+    /* Metallic Gold */
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: clamp(1.5rem, 5vh, 4rem);
+    /* Adjusted for height constraints */
+    text-shadow: 4px 4px 0 #000;
+    /* Deep shadow for 3D effect */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    overflow: hidden;
+    /* Prevent spillover */
+}
+
+.clue-cell:hover {
+    background: linear-gradient(180deg, #1a23f5 0%, #0000aa 100%);
+    transform: scale(1.02);
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    /* Gold glow on hover */
+}
+
+/* Host View Overrides */
+.main-content .board-grid {
+    aspect-ratio: unset;
+    height: auto;
+    width: 100%;
+    max-width: 1200px;
+    /* Constrain width slightly for readability */
+    max-height: none;
+    grid-template-rows: auto repeat(5, 1fr);
+    gap: 10px;
+    margin: 20px auto;
+}
+
+.main-content .host-grid-cell {
+    height: 80px;
+    /* Fixed functional height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: gold;
+}
+
+/* 5. Modal / Active Clue Readability */
+.modal {
+    background: rgba(0, 0, 50, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: linear-gradient(180deg, #060CE9 0%, #000088 100%);
+    border: 4px solid #000;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.clue-text {
+    font-family: 'Times New Roman', serif;
+    /* Classic clue font */
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 4px #000;
+    font-size: clamp(2rem, 5vmin, 4rem);
+    text-transform: uppercase;
+    line-height: 1.3;
+    padding: 10px;
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
+}
+
+/* --- Page Specific Backgrounds --- */
+
+/* 1. Landing Page (Home) */
+body.page-landing {
+    background-image: url('bg/bg_landing.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.page-landing .landing-container {
+    /* Ensure content is positioned appropriately given the new bg */
+    background: rgba(0, 0, 0, 0.2);
+    /* Slight tint if needed? */
+}
+
+/* 2. TV Board */
+body.page-board {
+    background-image: url('bg_user_studio.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Fallback if image fails */
+    background-color: #000033;
+    /* Flex Layout for Full Screen - Lock height to 100vh */
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-board .app-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Ensure the grid fits */
+/* Ensure the grid fits */
+.page-board .board-grid {
+    background: transparent !important;
+    width: 95vw;
+    /* Use flex grow to fill remaining space */
+    flex: 1;
+    height: auto;
+    border: none;
+    aspect-ratio: auto;
+    /* Center it */
+    margin: 0 auto;
+    /* Ensure minimal gap logic */
+    display: grid;
+}
+
+/* Ensure container allows growth */
+#game-board-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 1vmin;
+}
+
+/* Ensure footer works */
+.game-footer {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 3. Player (Phone) */
+body.page-player {
+    background-image: url('bg/bg_phone.png');
+    background-size: cover;
+    background-position: center;
+    /* or top center? */
+    background-attachment: fixed;
+}
+
+/* Layout Adjustment for Player: Push content to bottom */
+.page-player .app-container {
+    background: transparent !important;
+    /* Remove dark global overlay to see the art */
+    justify-content: flex-end;
+    /* Push content to bottom */
+    padding-bottom: 50px;
+    /* Spacing from bottom edge */
+}
+
+/* Ensure the buzzer wrapper doesn't take up whole screen centering */
+.page-player .buzzer-wrapper {
+    flex: 0 0 auto;
+    /* Don't expand to fill empty space */
+    margin-bottom: 20px;
+}
+
+/* Glass panels on player might need to be less opaque to see background? */
+.page-player .glass-panel {
+    background: rgba(0, 0, 0, 0.6);
+    /* Slightly Darker backing for text readability */
+    backdrop-filter: blur(5px);
+}

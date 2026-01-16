@@ -1,0 +1,494 @@
+{
+    "title": "Week 11 (Mar 17): St. Patrick's Day",
+    "theme": {
+        "--bg-image": "url('/static/bg/bg_jeopardy_set.png')",
+        "--bg-color": "#000000",
+        "--bg-overlay": "radial-gradient(circle at center, rgba(6, 12, 233, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)",
+        "--glass-bg": "rgba(6, 12, 233, 0.3)",
+        "--border-color": "rgba(255, 255, 255, 0.1)",
+        "--accent-color": "#FFCC00",
+        "--text-color": "#FFFFFF",
+        "--button-bg": "rgba(6, 12, 233, 0.8)",
+        "--button-shadow": "none"
+    },
+    "round_1": {
+        "Green Things": [
+            {
+                "value": 100,
+                "clue": "This leafy vegetable is the base of a Caesar Salad.",
+                "answer": "Romaine Lettuce",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Dorothy follows the yellow brick road to this colored City.",
+                "answer": "Emerald City",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This Avenger turns green when he gets angry.",
+                "answer": "The Hulk",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This precious gemstone is a variety of the mineral beryl.",
+                "answer": "Emerald",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This green pigment is responsible for photosynthesis in plants.",
+                "answer": "Chlorophyll",
+                "type": "text"
+            }
+        ],
+        "Irish History": [
+            {
+                "value": 100,
+                "clue": "This city is the capital of the Republic of Ireland.",
+                "answer": "Dublin",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The 'Troubles' was a conflict primarily situated in this northern region.",
+                "answer": "Northern Ireland",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The Great Famine of the 1840s was caused by the failure of this crop.",
+                "answer": "Potato",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The RMS Titanic was built in this Belfast shipyard.",
+                "answer": "Harland and Wolff",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "St. Patrick used the three-leaf shamrock to explain this religious concept.",
+                "answer": "The Holy Trinity",
+                "type": "text"
+            }
+        ],
+        "Leprechaun Lore": [
+            {
+                "value": 100,
+                "clue": "In folklore, Leprechauns enter this trade, making shoes.",
+                "answer": "Cobbler",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "They are said to hide their pot of gold at the end of this phenomenon.",
+                "answer": "Rainbow",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "If you catch a Leprechaun, he must grant you this many wishes.",
+                "answer": "Three",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This General Mills cereal features 'Lucky' the Leprechaun.",
+                "answer": "Lucky Charms",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Leprechauns are part of the 'Tuatha De Danann', a race of these mythological beings.",
+                "answer": "Fairies / Fae",
+                "type": "text"
+            }
+        ],
+        "Potatoes": [
+            {
+                "value": 100,
+                "clue": "In the UK and Ireland, French Fries are commonly called this.",
+                "answer": "Chips",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This fast food chain serves a hash brown patty with breakfast.",
+                "answer": "McDonald's",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "While often made from grain, Vodka can also be distilled from this tuber.",
+                "answer": "Potato",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The first toy advertised on television was this spud-shaped character.",
+                "answer": "Mr. Potato Head",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This US state is the largest producer of potatoes.",
+                "answer": "Idaho",
+                "type": "text"
+            }
+        ],
+        "U2 & Irish Bands": [
+            {
+                "value": 100,
+                "clue": "He is the sunglass-wearing lead singer of U2.",
+                "answer": "Bono",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Sinead O'Connor infamously ripped up a picture of this religious figure on SNL.",
+                "answer": "The Pope",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The Cranberries had a massive global hit in 1994 with this song about conflict.",
+                "answer": "Zombie",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Van Morrison sings about a 'Brown Eyed ____' in his signature song.",
+                "answer": "Girl",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Niall Horan rose to fame as a member of this boy band.",
+                "answer": "One Direction",
+                "type": "text"
+            }
+        ]
+    },
+    "round_2": {
+        "General Science": [
+            {
+                "value": 100,
+                "clue": "This planet is known as the Red Planet.",
+                "answer": "Mars",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "H2O is the chemical formula for this liquid.",
+                "answer": "Water",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This force keeps us on the ground.",
+                "answer": "Gravity",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The nucleus of an atom contains protons and these neutral particles.",
+                "answer": "Neutrons",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Au is the symbol for this element.",
+                "answer": "Gold",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This gas is essential for human respiration.",
+                "answer": "Oxygen",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The speed of light is approximately 300,000 kilometers per ____.",
+                "answer": "Second",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "This organ pumps blood through the body.",
+                "answer": "Heart",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "The hard outer shell of an insect is called an ____.",
+                "answer": "Exoskeleton",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This scientist developed the theory of relativity.",
+                "answer": "Einstein",
+                "type": "text"
+            }
+        ],
+        "World History": [
+            {
+                "value": 100,
+                "clue": "He was the first Emperor of Rome.",
+                "answer": "Augustus",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Pyramids of Giza are located in this country.",
+                "answer": "Egypt",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This wall in China is visible from space (myth, but famous).",
+                "answer": "Great Wall",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Magna Carta was signed in this year.",
+                "answer": "1215",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Joan of Arc was a heroine of this country.",
+                "answer": "France",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This ship sank on its maiden voyage in 1912.",
+                "answer": "Titanic",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The Berlin Wall fell in this year.",
+                "answer": "1989",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Cleopatra was the last active ruler of this kingdom.",
+                "answer": "Ptolemaic Egypt",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This pandemic killed millions in the 14th century.",
+                "answer": "Black Death / Plague",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Nelson Mandela was the first black president of this country.",
+                "answer": "South Africa",
+                "type": "text"
+            }
+        ],
+        "Geography": [
+            {
+                "value": 100,
+                "clue": "This is the largest continent.",
+                "answer": "Asia",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Amazon Rainforest is primarily in this country.",
+                "answer": "Brazil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This river is the longest in the world.",
+                "answer": "Nile (or Amazon)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Canberra is the capital of this country.",
+                "answer": "Australia",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Mount Everest is located in this mountain range.",
+                "answer": "Himalayas",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This U.S. state has the longest coastline.",
+                "answer": "Alaska",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "This canal connects the Atlantic and Pacific Oceans.",
+                "answer": "Panama Canal",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "The Sahara Desert is located on this continent.",
+                "answer": "Africa",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This European country is shaped like a boot.",
+                "answer": "Italy",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Tokyo is the capital of this island nation.",
+                "answer": "Japan",
+                "type": "text"
+            }
+        ],
+        "Literature": [
+            {
+                "value": 100,
+                "clue": "He wrote Romeo and Juliet.",
+                "answer": "Shakespeare",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This wizard boy attends Hogwarts.",
+                "answer": "Harry Potter",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Katniss Everdeen is the heroine of this trilogy.",
+                "answer": "Hunger Games",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Moby Dick is a giant white ____.",
+                "answer": "Whale",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Sherlock Holmes lives at 221B ____ Street.",
+                "answer": "Baker",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "Gatsby loved this woman in Fitzgerald's novel.",
+                "answer": "Daisy",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "Frankenstein created a ____.",
+                "answer": "Monster",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Bilbo Baggins finds a magic ring in this book.",
+                "answer": "The Hobbit",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Dracula comes from this region in Romania.",
+                "answer": "Transylvania",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Jane Austen wrote Pride and ____.",
+                "answer": "Prejudice",
+                "type": "text"
+            }
+        ],
+        "Pop Culture": [
+            {
+                "value": 100,
+                "clue": "This singer is known as the Queen of Pop.",
+                "answer": "Madonna",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Example of a reality TV family.",
+                "answer": "Kardashians",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The MCU stands for Marvel ____ Universe.",
+                "answer": "Cinematic",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This sitcom features six friends living in NYC.",
+                "answer": "Friends",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Beyonce was a member of this girl group.",
+                "answer": "Destiny's Child",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This platform features short-form videos.",
+                "answer": "TikTok",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "He plays Iron Man in the movies.",
+                "answer": "Robert Downey Jr.",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Taylor Swift's fans are called this.",
+                "answer": "Swifties",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Game of Thrones is based on books by George R.R. ____.",
+                "answer": "Martin",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This K-Pop group has a massive global following called ARMY.",
+                "answer": "BTS",
+                "type": "text"
+            }
+        ]
+    },
+    "final_jeopardy": {
+        "category": "General Science",
+        "clue": "The nucleus of an atom contains protons and these neutral particles.",
+        "answer": "Neutrons",
+        "type": "text"
+    }
+}

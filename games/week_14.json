@@ -1,0 +1,494 @@
+{
+    "title": "Week 14 (Apr 07): April Fools",
+    "theme": {
+        "--bg-image": "url('/static/bg/bg_jeopardy_set.png')",
+        "--bg-color": "#000000",
+        "--bg-overlay": "radial-gradient(circle at center, rgba(6, 12, 233, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)",
+        "--glass-bg": "rgba(6, 12, 233, 0.3)",
+        "--border-color": "rgba(255, 255, 255, 0.1)",
+        "--accent-color": "#FFCC00",
+        "--text-color": "#FFFFFF",
+        "--button-bg": "rgba(6, 12, 233, 0.8)",
+        "--button-shadow": "none"
+    },
+    "round_1": {
+        "Famous Pranks": [
+            {
+                "value": 100,
+                "clue": "In 1957, the BBC fooled the nation with a harvest of this pasta from trees.",
+                "answer": "Spaghetti",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Burger King advertised a 'Left-Handed' version of this signature burger.",
+                "answer": "Whopper",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Orson Welles' radio broadcast of this H.G. Wells novel caused real panic.",
+                "answer": "War of the Worlds",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "In 1996, Taco Bell claimed they bought this Philadelphia landmark.",
+                "answer": "The Liberty Bell",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Sports Illustrated wrote about a pitcher named Siddhartha Finch who threw 168 mph.",
+                "answer": "Sidd Finch",
+                "type": "text"
+            }
+        ],
+        "Comedy Movies": [
+            {
+                "value": 100,
+                "clue": "Will Ferrell plays Buddy, a human raised by elves, in this movie.",
+                "answer": "Elf",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Jim Carrey is physically unable to lie in this courtroom comedy.",
+                "answer": "Liar Liar",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Lindsay Lohan learns the rules of 'The Plastics' in this 2004 high school hit.",
+                "answer": "Mean Girls",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This R-rated comedy about a bachelor party gone wrong features Mike Tyson.",
+                "answer": "The Hangover",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Leslie Nielsen plays Dr. Rumack (and don't call him Shirley) in this disaster spoof.",
+                "answer": "Airplane!",
+                "type": "text"
+            }
+        ],
+        "Stand-up Legends": [
+            {
+                "value": 100,
+                "clue": "This comedian's sitcom about 'nothing' dominated the 90s.",
+                "answer": "Jerry Seinfeld",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "He voiced Donkey in Shrek and starred in Beverly Hills Cop.",
+                "answer": "Eddie Murphy",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This 'Rock' comedian was slapped onstage at the Oscars.",
+                "answer": "Chris Rock",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This comedian and daytime talk host voices Dory in Finding Nemo.",
+                "answer": "Ellen DeGeneres",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "He is famous for the 'Seven Words You Can Never Say on Television'.",
+                "answer": "George Carlin",
+                "type": "text"
+            }
+        ],
+        "Satire News": [
+            {
+                "value": 100,
+                "clue": "This 'America's Finest News Source' is the most famous satire site.",
+                "answer": "The Onion",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Jon Stewart hosted this Comedy Central 'news' show for 16 years.",
+                "answer": "The Daily Show",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "SNL's recurring news segment is called 'Weekend ____'.",
+                "answer": "Update",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Stephen Colbert played a conservative pundit on 'The Colbert ____'.",
+                "answer": "Report",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "This Christian satire site has grown to rival The Onion in popularity.",
+                "answer": "The Babylon Bee",
+                "type": "text"
+            }
+        ],
+        "Hoaxes": [
+            {
+                "value": 100,
+                "clue": "The Loch Ness Monster is affectionately known by this nickname.",
+                "answer": "Nessie",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Patterson-Gimlin film famously claims to capture this cryptid.",
+                "answer": "Bigfoot / Sasquatch",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This 'Man' found in 1912 was exposed as a hoax in 1953 (a human skull with an orangutan jaw).",
+                "answer": "Piltdown Man",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "In 2009, parents claimed their son Falcon was trapped in one of these flying objects.",
+                "answer": "Balloon (Balloon Boy)",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Two men, Doug and Dave, admitted to making these patterns in English fields with planks.",
+                "answer": "Crop Circles",
+                "type": "text"
+            }
+        ]
+    },
+    "round_2": {
+        "General Science": [
+            {
+                "value": 100,
+                "clue": "This planet is known as the Red Planet.",
+                "answer": "Mars",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "H2O is the chemical formula for this liquid.",
+                "answer": "Water",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This force keeps us on the ground.",
+                "answer": "Gravity",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The nucleus of an atom contains protons and these neutral particles.",
+                "answer": "Neutrons",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Au is the symbol for this element.",
+                "answer": "Gold",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This gas is essential for human respiration.",
+                "answer": "Oxygen",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The speed of light is approximately 300,000 kilometers per ____.",
+                "answer": "Second",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "This organ pumps blood through the body.",
+                "answer": "Heart",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "The hard outer shell of an insect is called an ____.",
+                "answer": "Exoskeleton",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This scientist developed the theory of relativity.",
+                "answer": "Einstein",
+                "type": "text"
+            }
+        ],
+        "World History": [
+            {
+                "value": 100,
+                "clue": "He was the first Emperor of Rome.",
+                "answer": "Augustus",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Pyramids of Giza are located in this country.",
+                "answer": "Egypt",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This wall in China is visible from space (myth, but famous).",
+                "answer": "Great Wall",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "The Magna Carta was signed in this year.",
+                "answer": "1215",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Joan of Arc was a heroine of this country.",
+                "answer": "France",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This ship sank on its maiden voyage in 1912.",
+                "answer": "Titanic",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "The Berlin Wall fell in this year.",
+                "answer": "1989",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Cleopatra was the last active ruler of this kingdom.",
+                "answer": "Ptolemaic Egypt",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This pandemic killed millions in the 14th century.",
+                "answer": "Black Death / Plague",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Nelson Mandela was the first black president of this country.",
+                "answer": "South Africa",
+                "type": "text"
+            }
+        ],
+        "Geography": [
+            {
+                "value": 100,
+                "clue": "This is the largest continent.",
+                "answer": "Asia",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "The Amazon Rainforest is primarily in this country.",
+                "answer": "Brazil",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "This river is the longest in the world.",
+                "answer": "Nile (or Amazon)",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Canberra is the capital of this country.",
+                "answer": "Australia",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Mount Everest is located in this mountain range.",
+                "answer": "Himalayas",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This U.S. state has the longest coastline.",
+                "answer": "Alaska",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "This canal connects the Atlantic and Pacific Oceans.",
+                "answer": "Panama Canal",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "The Sahara Desert is located on this continent.",
+                "answer": "Africa",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "This European country is shaped like a boot.",
+                "answer": "Italy",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Tokyo is the capital of this island nation.",
+                "answer": "Japan",
+                "type": "text"
+            }
+        ],
+        "Literature": [
+            {
+                "value": 100,
+                "clue": "He wrote Romeo and Juliet.",
+                "answer": "Shakespeare",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "This wizard boy attends Hogwarts.",
+                "answer": "Harry Potter",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "Katniss Everdeen is the heroine of this trilogy.",
+                "answer": "Hunger Games",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "Moby Dick is a giant white ____.",
+                "answer": "Whale",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Sherlock Holmes lives at 221B ____ Street.",
+                "answer": "Baker",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "Gatsby loved this woman in Fitzgerald's novel.",
+                "answer": "Daisy",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "Frankenstein created a ____.",
+                "answer": "Monster",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Bilbo Baggins finds a magic ring in this book.",
+                "answer": "The Hobbit",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Dracula comes from this region in Romania.",
+                "answer": "Transylvania",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "Jane Austen wrote Pride and ____.",
+                "answer": "Prejudice",
+                "type": "text"
+            }
+        ],
+        "Pop Culture": [
+            {
+                "value": 100,
+                "clue": "This singer is known as the Queen of Pop.",
+                "answer": "Madonna",
+                "type": "text"
+            },
+            {
+                "value": 200,
+                "clue": "Example of a reality TV family.",
+                "answer": "Kardashians",
+                "type": "text"
+            },
+            {
+                "value": 300,
+                "clue": "The MCU stands for Marvel ____ Universe.",
+                "answer": "Cinematic",
+                "type": "text"
+            },
+            {
+                "value": 400,
+                "clue": "This sitcom features six friends living in NYC.",
+                "answer": "Friends",
+                "type": "text"
+            },
+            {
+                "value": 500,
+                "clue": "Beyonce was a member of this girl group.",
+                "answer": "Destiny's Child",
+                "type": "text"
+            },
+            {
+                "value": 600,
+                "clue": "This platform features short-form videos.",
+                "answer": "TikTok",
+                "type": "text"
+            },
+            {
+                "value": 700,
+                "clue": "He plays Iron Man in the movies.",
+                "answer": "Robert Downey Jr.",
+                "type": "text"
+            },
+            {
+                "value": 800,
+                "clue": "Taylor Swift's fans are called this.",
+                "answer": "Swifties",
+                "type": "text"
+            },
+            {
+                "value": 900,
+                "clue": "Game of Thrones is based on books by George R.R. ____.",
+                "answer": "Martin",
+                "type": "text"
+            },
+            {
+                "value": 1000,
+                "clue": "This K-Pop group has a massive global following called ARMY.",
+                "answer": "BTS",
+                "type": "text"
+            }
+        ]
+    },
+    "final_jeopardy": {
+        "category": "World History",
+        "clue": "This ship sank on its maiden voyage in 1912.",
+        "answer": "Titanic",
+        "type": "text"
+    }
+}
