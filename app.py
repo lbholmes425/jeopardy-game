@@ -491,4 +491,7 @@ if __name__ == "__main__":
         STATE.game_data = deepcopy(GAMES.get('original', {})) # Fallback
 
     port = int(os.environ.get("PORT", 5001))
-    socketio.run(app, debug=True, port=port, host='0.0.0.0')
+    # In production (when PORT is set), disable debug mode to prevent the "Werkzeug unsafe" error
+    # We also pass allow_unsafe_werkzeug=True just in case it falls back to the standard server
+    is_prod = bool(os.environ.get("PORT"))
+    socketio.run(app, debug=not is_prod, port=port, host='0.0.0.0', allow_unsafe_werkzeug=True)
