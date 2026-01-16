@@ -599,10 +599,11 @@ body.page-player {
 .page-player .app-container {
     background: transparent !important;
     /* Remove dark global overlay to see the art */
-    justify-content: flex-end;
-    /* Push content to bottom */
-    padding-bottom: 50px;
-    /* Spacing from bottom edge */
+    justify-content: space-between;
+    /* Distribute content evenly */
+    padding-bottom: 20px;
+    padding-top: env(safe-area-inset-top);
+    /* Handle Notch */
 }
 
 /* Ensure the buzzer wrapper doesn't take up whole screen centering */
