@@ -4,8 +4,8 @@ services:
     env: python
     region: ohio
     plan: free
-    buildCommand: python3 -m pip install -r requirements.txt
-    startCommand: python3 app.py
+    buildCommand: pip install -r requirements.txt --target ./libs
+    startCommand: PYTHONPATH=libs python3 app.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
