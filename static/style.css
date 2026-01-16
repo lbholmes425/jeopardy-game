@@ -31,7 +31,7 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     color: white;
 }
