@@ -312,19 +312,23 @@
             // Wait for 'game_loaded' event to reload
         }
 
-        socket.on('game_loaded', () => {
-            // Force a hard reload from the server, bypassing cache
-            const url = new URL(window.location.href);
-            url.searchParams.set('t', Date.now());
-            window.location.href = url.toString();
-        });
+        if (socket) {
+            socket.on('game_loaded', () => {
+                // Force a hard reload from the server, bypassing cache
+                const url = new URL(window.location.href);
+                url.searchParams.set('t', Date.now());
+                window.location.href = url.toString();
+            });
+        }
 
         function switchRound(rid) {
+            if (!socket) return alert("Socket not connected");
             socket.emit('host_action', { action: 'switch_round', round: rid });
-            window.location.reload(); // Simple refresh to update view state
+            window.location.reload();
         }
 
         function openClue(r, c, i) {
+            if (!socket) return alert("Socket not connected");
             socket.emit('host_action', { action: 'open_clue', round: r, category: c, index: i });
         }
 
@@ -332,6 +336,9 @@
             const r = el.getAttribute('data-round');
             const c = el.getAttribute('data-cat');
             const i = parseInt(el.getAttribute('data-index'));
+            console.log("Click detected:", r, c, i);
+            // Debug alert to confirm it works
+            // alert(`Opening: ${c} ($${(i+1)*100})`);
             openClue(r, c, i);
         }
 

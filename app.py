@@ -298,7 +298,16 @@ def handle_host_action(data):
     elif action == 'open_clue':
         # r = round, c = category, i = index
         r, c, i = data.get('round'), data.get('category'), data.get('index')
-        clue_obj = STATE.game_data[r][c][i]
+        
+        try:
+            clue_obj = STATE.game_data[r][c][i]
+        except KeyError as e:
+            print(f"ERROR: open_clue failed. Round: {r}, Cat: {c}, Index: {i}")
+            print(f"Available Categories in {r}: {list(STATE.game_data.get(r, {}).keys())}")
+            return
+        except TypeError as e:
+            print(f"ERROR: structure mismatch in open_clue. Data: {STATE.game_data.get(r, {}).get(c)}")
+            return
         
         is_dd = clue_obj.get('daily_double', False)
         
