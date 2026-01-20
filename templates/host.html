@@ -166,9 +166,10 @@
             {% for cat, qs in game[round_id].items() %}
             {% set q = qs[i] %}
             {% set q_id = round_id + '-' + cat|replace(' ', '-') + '-' + i|string %}
-            <!-- ESCAPE QUOTES IN ONCLICK -->
+            <!-- Safe Click Handler using Data Attributes -->
             <div class="host-grid-cell {{ 'used' if q_id in state.open_clues else '' }}" id="host-{{ q_id }}"
-                onclick="openClue('{{ round_id }}', '{{ cat|replace("'", "\\'")|replace('"', ' &quot;') }}', {{ i }})">
+                data-round="{{ round_id }}" data-cat="{{ cat }}" data-index="{{ i }}"
+                onclick="openClueFromElement(this)">
                 ${{ q.value }}
             </div>
             {% endfor %}
