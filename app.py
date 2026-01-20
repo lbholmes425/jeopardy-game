@@ -422,6 +422,7 @@ def handle_buzz(data):
         STATE.buzzer_locked = True
         STATE.buzzed_team = team_id
         emit('buzzed_in', {'team': team_id}, broadcast=True)
+        emit('buzz_timer_start', {'duration': 5}, broadcast=True)
 
 @socketio.on('submit_wager')
 def handle_wager(data):

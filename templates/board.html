@@ -155,8 +155,13 @@
             <div id="daily-double-notice" style="display:none; color: gold; font-size: 2em; font-weight: bold;">DAILY
                 DOUBLE!</div>
 
-            <div id="buzzer-overlay" style="display:none; margin-top: 20px;">
-                <h1 style="color: red; font-size: 3rem;" id="buzzer-msg">TEAM X BUZZED!</h1>
+            <div id="buzzer-overlay"
+                style="display:none; margin-top: 20px; width: 80%; flex-direction: column; align-items: center;">
+                <h1 style="color: red; font-size: 3rem; margin: 0;" id="buzzer-msg">TEAM X BUZZED!</h1>
+                <div
+                    style="width: 100%; height: 20px; background: #333; margin-top: 10px; border-radius: 10px; overflow: hidden;">
+                    <div id="buzzer-timer-bar" style="width: 100%; height: 100%; background: red;"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -287,11 +292,28 @@
             }, 2000);
         });
 
+        socket.on('buzz_timer_start', (data) => {
+            const bar = document.getElementById('buzzer-timer-bar');
+            bar.style.transition = 'none';
+            bar.style.width = '100%';
+
+            // Force Reflow
+            void bar.offsetWidth;
+
+            requestAnimationFrame(() => {
+                bar.style.transition = `width ${data.duration}s linear`;
+                bar.style.width = '0%';
+            });
+
+            // Optional: Auto-incorrect after time? 
+            // Better to let host decide for now to avoid accidental lockouts.
+        });
+
         socket.on('buzzed_in', (data) => {
             const overlay = document.getElementById('buzzer-overlay');
             document.getElementById('buzzer-msg').innerText = `TEAM ${data.team} BUZZED!`;
             document.getElementById('buzzer-msg').style.color = "red";
-            overlay.style.display = 'block';
+            overlay.style.display = 'flex'; // Changed to flex for centering
             new Audio('https://www.myinstants.com/media/sounds/times-up.mp3').play().catch(e => { });
         });
 
