@@ -101,8 +101,8 @@ class GameState:
         self.game_id = 'original'
         self.game_data = None
         self.current_round = 'round_1'
-        self.scores = {1: 0, 2: 0, 3: 0} # Team scores
-        self.team_names = {1: "Team 1", 2: "Team 2", 3: "Team 3"}
+        self.scores = {} # Dynamic: {team_id: score}
+        self.team_names = {}
         self.current_clue = None # {round, category, index, value, question, answer}
         self.buzzer_locked = False
         self.buzzed_team = None
@@ -126,8 +126,8 @@ class GameState:
         self.assign_daily_doubles()
         self.open_clues = []
         self.current_round = 'round_1'
-        # Keep scores? Or reset? Let's reset for new game load.
-        self.scores = {1: 0, 2: 0, 3: 0}
+        # Reset scores dynamically
+        self.scores = {}
         self.buzzer_locked = False
         self.buzzed_team = None
         self.attempted_teams = []
@@ -269,7 +269,7 @@ def handle_host_action(data):
             STATE.final_phase = 'wager'
             STATE.final_wagers = {}
             STATE.final_answers = {}
-            STATE.final_reveal_state = {1: {'wager': False, 'answer': False}, 2: {'wager': False, 'answer': False}, 3: {'wager': False, 'answer': False}}
+            STATE.final_reveal_state = {t: {'wager': False, 'answer': False} for t in STATE.active_teams}
             
             # Load Clue Text
             fj = STATE.game_data.get('final_jeopardy', {})
@@ -288,6 +288,8 @@ def handle_host_action(data):
         if team not in STATE.active_teams:
             STATE.active_teams.append(team)
             STATE.active_teams.sort()
+            if team not in STATE.scores:
+                STATE.scores[team] = 0
         if name:
             STATE.team_names[team] = name
             

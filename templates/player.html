@@ -323,22 +323,21 @@
 
         function createNewTeam() {
             const name = document.getElementById('new-team-name').value.trim() || "Team " + (Math.floor(Math.random() * 1000));
-            // Find free slot
-            let freeSlot = null;
-            if (!lastState.active_teams) lastState.active_teams = [];
-
-            for (let i = 1; i <= 3; i++) {
-                if (!lastState.active_teams.includes(i)) {
-                    freeSlot = i;
-                    break;
-                }
+            // Dynamic ID: Max of current + 1, starting at 1
+            let nextId = 1;
+            if (lastState.active_teams && lastState.active_teams.length > 0) {
+                const maxId = Math.max(...lastState.active_teams);
+                nextId = maxId + 1;
             }
 
-            if (freeSlot) {
-                joinTeam(freeSlot, name);
-            } else {
+            // Limit to reasonable number if needed, e.g. 50?
+            if (nextId > 50) {
+                document.getElementById('join-error').innerText = "Too many teams!";
                 document.getElementById('join-error').style.display = 'block';
+                return;
             }
+
+            joinTeam(nextId, name);
         }
 
         function joinTeam(id, name) {
@@ -561,6 +560,9 @@
             document.getElementById('player-clue-text').innerText = data.answer;
             document.getElementById('clue-container').style.background = "gold";
             document.getElementById('clue-container').style.color = "black";
+            // FORCE REDRAW COMPATIBILITY
+            document.getElementById('player-clue-text').style.color = "black";
+            document.getElementById('player-clue-text').style.fontWeight = "900";
             updateBtn('idle', 'ANSWER', 'REVEALED');
             sounds.correct.play().catch(e => { });
         });

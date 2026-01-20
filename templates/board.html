@@ -98,8 +98,26 @@
             {% endfor %}
 
             <div id="final_jeopardy" class="final-round"
-                style="display: {{ 'block' if state.current_round == 'final_jeopardy' else 'none' }}">
-                <!-- FJ content omitted for brevity -->
+                style="display: {{ 'flex' if state.current_round == 'final_jeopardy' else 'none' }}; flex-direction: column; width: 100%; height: 100%; align-items: center; justify-content: flex-start; padding-top: 5vh;">
+                <h1 style="color: gold; margin-bottom: 20px; font-size: 3rem; text-shadow: 0 0 10px red;">FINAL JEOPARDY
+                </h1>
+                <div id="fj-display-clue"
+                    style="font-size: 4rem; text-align: center; color: white; margin-bottom: 50px; padding: 20px; background: rgba(0,0,100,0.5); border: 2px solid gold; border-radius: 10px; width: 80%;">
+                    {{ state.final_clue_text if state.final_clue_text else "WAITING FOR HOST..." }}
+                </div>
+
+                <!-- Dynamic Answer/Wager Cards -->
+                <div id="fj-board-cards"
+                    style="display: flex; gap: 30px; width: 90%; justify-content: center; flex-wrap: wrap;">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Timer Bar -->
+                <div
+                    style="width: 80%; margin-top: 40px; height: 10px; background: #333; border-radius: 5px; overflow: hidden;">
+                    <div id="fj-timer-bar"
+                        style="width: 0%; height: 100%; background: gold; transition: width 30s linear;"></div>
+                </div>
             </div>
         </main>
 
@@ -251,8 +269,8 @@
         });
 
         socket.on('answer_revealed', (data) => {
-            document.getElementById('modal-clue-text').innerText = data.answer;
-            document.getElementById('modal-clue-text').style.color = "gold";
+            document.getElementById('modal-clue').innerText = data.answer;
+            document.getElementById('modal-clue').style.color = "gold";
             document.getElementById('buzzer-overlay').style.display = 'none'; // Hide buzzer msg if any
             new Audio('https://www.myinstants.com/media/sounds/correct.mp3').play().catch(e => { });
         });
@@ -322,18 +340,62 @@
             } else {
                 ddOverlay.style.display = 'none';
             }
-            if (state.active_teams && state.active_teams.length > 0) {
-                // For now, assume 1-3.
-                for (let t = 1; t <= 3; t++) {
-                    const card = document.getElementById(`fj-card-${t}`); // Need to add ID to card
-                    if (card) {
-                        card.style.display = state.active_teams.includes(t) ? 'block' : 'none';
-                        // Update Name
-                        const nameEl = card.querySelector('h2'); // The h2 isn't easily selectable without class/ID.
-                        // Wait, I didn't add the ID for name in board.html yet?
-                        // Actually, I can select: document.querySelector(`#fj-card-${t} h2`).
-                        const name = state.team_names[t] || `Team ${t}`;
-                        if (nameEl) nameEl.innerText = name;
+            // Dynamic FJ Cards
+            const fjBoardContainer = document.getElementById('fj-board-cards');
+            if (activeIds.length !== fjBoardContainer.children.length && state.current_round === 'final_jeopardy') {
+                fjBoardContainer.innerHTML = '';
+                activeIds.forEach(t => {
+                    const name = state.team_names[t] || `Team ${t}`;
+                    const div = document.createElement('div');
+                    div.id = `fj-card-${t}`;
+                    div.style.background = "linear-gradient(180deg, #060CE9 0%, #000088 100%)";
+                    div.style.border = "2px solid gold";
+                    div.style.padding = "20px";
+                    div.style.borderRadius = "10px";
+                    div.style.flex = "1";
+                    div.style.minWidth = "200px";
+                    div.style.textAlign = "center";
+                    div.style.display = "flex";
+                    div.style.flexDirection = "column";
+                    div.style.justifyContent = "center";
+                    div.style.minHeight = "200px";
+
+                    div.innerHTML = `
+                        <h2 style="color:white; margin-top:0;">${name}</h2>
+                        <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px;">
+                            <div id="fj-answer-${t}" style="font-size: 2rem; color: white; background:black; padding:10px; border:1px solid #444;">???</div>
+                            <div id="fj-wager-${t}" style="font-size: 1.5rem; color: gold; display:none;">$---</div>
+                        </div>
+                    `;
+                    fjBoardContainer.appendChild(div);
+                });
+            } else if (state.current_round === 'final_jeopardy') {
+                // Update State (Reveals)
+                // Check reveal state
+                if (state.final_reveal_state) {
+                    for (let [team, info] of Object.entries(state.final_reveal_state)) {
+                        // Reveal Wager
+                        const wagerEl = document.getElementById(`fj-wager-${team}`);
+                        if (wagerEl) {
+                            if (info.wager) {
+                                wagerEl.innerText = `$${state.final_wagers[team]}`;
+                                wagerEl.style.display = 'block';
+                            } else {
+                                wagerEl.style.display = 'none';
+                            }
+                        }
+
+                        // Reveal Answer
+                        const ansEl = document.getElementById(`fj-answer-${team}`);
+                        if (ansEl) {
+                            if (info.answer) {
+                                ansEl.innerText = state.final_answers[team];
+                                ansEl.style.background = "#000088";
+                            } else {
+                                ansEl.innerText = "???";
+                                ansEl.style.background = "black";
+                            }
+                        }
                     }
                 }
             }
