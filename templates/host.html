@@ -652,31 +652,7 @@
             if (cell) cell.classList.add('used');
         });
 
-        // --- NEW EVENT DELEGATION LOGIC ---
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("DOM Loaded - Attaching Listeners");
-
-            // 1. Selector
-            const sel = document.getElementById('game-selector');
-            if (sel) {
-                sel.addEventListener('change', (e) => {
-                    console.log("Game Switch Detected:", e.target.value);
-                    loadGame(e.target.value);
-                });
-            } else {
-                console.error("Game Selector ID Not Found!");
-            }
-
-            // 2. Grid Clicks (Delegation on Document body or loop)
-            // Using delegation for robustness
-            document.body.addEventListener('click', (e) => {
-                const cell = e.target.closest('.host-grid-click');
-                if (cell) {
-                    console.log("Delegated Click on Cell:", cell);
-                    openClueFromElement(cell);
-                }
-            });
-        });
+        // (Event Listeners Removed - Using Inline Handlers)
 
         socket.on('buzzed_in', (data) => {
             document.getElementById('buzzer-status').innerText = `TEAM ${data.team} BUZZED!`;
