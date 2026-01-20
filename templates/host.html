@@ -157,7 +157,7 @@
                     class="{{ 'active' if state.current_round == 'final_jeopardy' else '' }}">Final</button>
             </div>
             <div style="display:flex; flex-direction:column; align-items:flex-end;">
-                <select id="game-selector"
+                <select id="game-selector" onchange="loadGame(this.value)"
                     style="background:#0F172A; color:gold; padding: 10px; border: 1px solid #334155; border-radius: 8px; font-family: 'Montserrat', sans-serif;">
                     <option value="" disabled>-- Select Week --</option>
                     {% for g in game_list|sort(attribute='id') %}
@@ -178,9 +178,10 @@
             {% for cat, qs in game[round_id].items() %}
             {% set q = qs[i] %}
             {% set q_id = round_id + '-' + cat|replace(' ', '-') + '-' + i|string %}
-            <!-- Safe Click Handler using Event Listeners -->
+            <!-- Safe Click Handler (Inline) -->
             <div class="host-grid-cell host-grid-click {{ 'used' if q_id in state.open_clues else '' }}"
-                id="host-{{ q_id }}" data-round="{{ round_id|e }}" data-cat="{{ cat|e }}" data-index="{{ i }}">
+                id="host-{{ q_id }}" data-round="{{ round_id|e }}" data-cat="{{ cat|e }}" data-index="{{ i }}"
+                onclick="openClueFromElement(this)">
                 ${{ q.value }}
             </div>
             {% endfor %}
