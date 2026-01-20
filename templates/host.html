@@ -126,16 +126,7 @@
 
 <body>
     <div class="app-container main-content">
-        <!-- CRITICAL DIAGNOSTICS - REMOVE AFTER FIX -->
-        <div id="sys-status"
-            style="background: red; color: white; padding: 10px; text-align: center; font-weight: bold; font-family: monospace; position: sticky; top: 0; z-index: 99999;">
-            SYSTEM STATUS: <span id="js-stat">JS LOADING...</span> | <span id="sock-stat">SOCKET: WAITING</span> | Last
-            Click: <span id="click-debug">None</span> | <span id="err-log">NO ERRORS</span>
-            <button onclick="alert('Test Click OK')"
-                style="background: white; color: black; padding: 2px 5px; margin-left: 10px;">TEST CLICK</button>
-        </div>
-
-        <!-- CRITICAL FIX: OVERRIDE CONTAINER & Z-INDEX -->
+        <!-- Layout & Z-Index Fixes -->
         <style>
             .app-container {
                 height: auto !important;
@@ -149,37 +140,26 @@
                 overflow: visible !important;
             }
 
+            /* Ensure Header is Topmost for Game Selector */
+            .game-header {
+                position: relative;
+                z-index: 300 !important;
+            }
+
             /* FORCE GRID CELLS TO TOP LAYER */
             .host-grid-cell {
                 z-index: 200 !important;
-                /* Above .control-panel (100) */
             }
 
-            /* Diagnostic Hover - KEEP UNTIL VERIFIED */
             .host-grid-cell:hover {
-                border: 5px solid lime !important;
-                /* Changed to Green for 'Go' */
-                background-color: yellow !important;
-                cursor: pointer !important;
-                transform: scale(1.1);
-                box-shadow: 0 0 15px white;
+                border-color: gold !important;
+                background-color: #444;
+                transform: scale(1.05);
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+                z-index: 201 !important;
             }
         </style>
 
-        <script>
-            // GLOBAL CLICK TRACKER
-            document.addEventListener('click', function (e) {
-                const clickDebug = document.getElementById('click-debug');
-                if (clickDebug) {
-                    let target = e.target;
-                    let info = target.tagName;
-                    if (target.className) info += "." + target.className;
-                    if (target.id) info += "#" + target.id;
-                    clickDebug.innerText = info + " @ " + new Date().toLocaleTimeString();
-                    console.log("Global Click:", info, target);
-                }
-            }, true); // Capture phase
-        </script>
 
         <div class="host-join-info">
             <div>
@@ -424,9 +404,6 @@
             const c = el.getAttribute('data-cat');
             const i = parseInt(el.getAttribute('data-index'));
             console.log("Click detected:", r, c, i);
-
-            const sockStatus = socket && socket.connected ? "Connected" : "DISCONNECTED";
-            alert(`DEBUG: Clicked ${c} for $${(i + 1) * 100}\nSocket: ${sockStatus}`);
 
             openClue(r, c, i);
         }
