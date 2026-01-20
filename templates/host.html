@@ -408,10 +408,19 @@
         }
 
         function openClueFromElement(el) {
+            // Visual Feedback
+            el.style.backgroundColor = "white";
+            el.style.color = "black";
+
             const r = el.getAttribute('data-round');
             const c = el.getAttribute('data-cat');
             const i = parseInt(el.getAttribute('data-index'));
             console.log("Click detected:", r, c, i);
+
+            if (!socket || !socket.connected) {
+                alert("❌ ERROR: Socket Disconnected! Refresh page.");
+                return;
+            }
 
             openClue(r, c, i);
         }
