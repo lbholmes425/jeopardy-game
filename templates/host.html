@@ -323,18 +323,6 @@
     </div>
 
     <script>
-        // Global Error Handler
-        window.onerror = function (msg, url, line) {
-            const errDiv = document.getElementById('err-log');
-            if (errDiv) errDiv.innerText = `ERR: ${msg} (L${line})`;
-            if (errDiv) errDiv.parentElement.style.background = "darkred";
-            return false;
-        };
-
-        // Report JS Load
-        document.getElementById('js-stat').innerText = "JS OK";
-        document.getElementById('js-stat').style.color = "lightgreen";
-
         // Init Socket
         let socket;
         try {
@@ -342,14 +330,11 @@
                 socket = io();
 
                 socket.on('connect', () => {
-                    document.getElementById('sock-stat').innerText = "SOCKET: CONNECTED";
-                    document.getElementById('sock-stat').style.color = "lightgreen";
-                    document.getElementById('sys-status').style.background = "green";
+                    console.log("SOCKET: CONNECTED");
                 });
 
                 socket.on('disconnect', () => {
-                    document.getElementById('sock-stat').innerText = "SOCKET: DISCONNECTED";
-                    document.getElementById('sys-status').style.background = "orange";
+                    console.log("SOCKET: DISCONNECTED");
                 });
 
             } else {
@@ -357,9 +342,8 @@
             }
         } catch (e) {
             console.error("Socket Init Failed:", e);
-            document.getElementById('sock-stat').innerText = "SOCKET: FAILED";
-            document.getElementById('err-log').innerText = e.message;
         }
+
 
         // Initialize QR Code (Safely)
         try {
@@ -408,10 +392,6 @@
         }
 
         function openClueFromElement(el) {
-            // Visual Feedback
-            el.style.backgroundColor = "white";
-            el.style.color = "black";
-
             const r = el.getAttribute('data-round');
             const c = el.getAttribute('data-cat');
             const i = parseInt(el.getAttribute('data-index'));
@@ -591,9 +571,8 @@
 
             // Dynamic Scoring Controls (Active Clue)
             const scoringContainer = document.getElementById('dynamic-scoring-controls');
-            // Only rebuild if team count differs (simple check) or just clear/rebuild always for safety
-            // Since this runs on every state update, optimization prevents flickering, 
-            // but for now simple rebuild is robust.
+            const activeIds = state.active_teams || [];
+
             if (activeIds.length !== scoringContainer.children.length) {
                 scoringContainer.innerHTML = '';
                 activeIds.forEach(t => {
@@ -662,12 +641,9 @@
 
             // DD Team Select Logic Update
             // Also needs to be dynamic
-            const ddSelect = document.getElementById('dd-select-team');
-            // We can just rebuild buttons there too if it's empty or mismatch
-            // Check if we need to clear previous static buttons
-            // For now, let's assume the DD select area needs a dynamic container too.
-            // I'll skip DD dynamic update for this specific chunk as I didn't edit that HTML yet, 
-            // but I should address it.
+            // DD Team Select Logic Update (Use existing variable)
+            // if (ddSelect) { ... }
+
 
             // Update Team Names in existing static places is removed because we removed the static places.
 
