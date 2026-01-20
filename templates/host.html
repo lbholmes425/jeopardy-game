@@ -375,8 +375,10 @@
             const c = el.getAttribute('data-cat');
             const i = parseInt(el.getAttribute('data-index'));
             console.log("Click detected:", r, c, i);
-            // Debug alert to confirm it works
-            // alert(`Opening: ${c} ($${(i+1)*100})`);
+
+            const sockStatus = socket && socket.connected ? "Connected" : "DISCONNECTED";
+            alert(`DEBUG: Clicked ${c} for $${(i + 1) * 100}\nSocket: ${sockStatus}`);
+
             openClue(r, c, i);
         }
 
