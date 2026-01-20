@@ -168,7 +168,7 @@
             {% set q_id = round_id + '-' + cat|replace(' ', '-') + '-' + i|string %}
             <!-- Safe Click Handler using Data Attributes -->
             <div class="host-grid-cell {{ 'used' if q_id in state.open_clues else '' }}" id="host-{{ q_id }}"
-                data-round="{{ round_id }}" data-cat="{{ cat }}" data-index="{{ i }}"
+                data-round="{{ round_id|e }}" data-cat="{{ cat|e }}" data-index="{{ i }}"
                 onclick="openClueFromElement(this)">
                 ${{ q.value }}
             </div>
