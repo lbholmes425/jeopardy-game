@@ -157,7 +157,7 @@
                     class="{{ 'active' if state.current_round == 'final_jeopardy' else '' }}">Final</button>
             </div>
             <div style="display:flex; flex-direction:column; align-items:flex-end;">
-                <select onchange="loadGame(this.value)"
+                <select id="game-selector"
                     style="background:#0F172A; color:gold; padding: 10px; border: 1px solid #334155; border-radius: 8px; font-family: 'Montserrat', sans-serif;">
                     <option value="" disabled>-- Select Week --</option>
                     {% for g in game_list|sort(attribute='id') %}
@@ -178,10 +178,9 @@
             {% for cat, qs in game[round_id].items() %}
             {% set q = qs[i] %}
             {% set q_id = round_id + '-' + cat|replace(' ', '-') + '-' + i|string %}
-            <!-- Safe Click Handler using Data Attributes -->
-            <div class="host-grid-cell {{ 'used' if q_id in state.open_clues else '' }}" id="host-{{ q_id }}"
-                data-round="{{ round_id|e }}" data-cat="{{ cat|e }}" data-index="{{ i }}"
-                onclick="openClueFromElement(this)">
+            <!-- Safe Click Handler using Event Listeners -->
+            <div class="host-grid-cell host-grid-click {{ 'used' if q_id in state.open_clues else '' }}"
+                id="host-{{ q_id }}" data-round="{{ round_id|e }}" data-cat="{{ cat|e }}" data-index="{{ i }}">
                 ${{ q.value }}
             </div>
             {% endfor %}
@@ -650,6 +649,32 @@
             const cellId = `host-${clue.round}-${safeCat}-${clue.index}`;
             const cell = document.getElementById(cellId);
             if (cell) cell.classList.add('used');
+        });
+
+        // --- NEW EVENT DELEGATION LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM Loaded - Attaching Listeners");
+
+            // 1. Selector
+            const sel = document.getElementById('game-selector');
+            if (sel) {
+                sel.addEventListener('change', (e) => {
+                    console.log("Game Switch Detected:", e.target.value);
+                    loadGame(e.target.value);
+                });
+            } else {
+                console.error("Game Selector ID Not Found!");
+            }
+
+            // 2. Grid Clicks (Delegation on Document body or loop)
+            // Using delegation for robustness
+            document.body.addEventListener('click', (e) => {
+                const cell = e.target.closest('.host-grid-click');
+                if (cell) {
+                    console.log("Delegated Click on Cell:", cell);
+                    openClueFromElement(cell);
+                }
+            });
         });
 
         socket.on('buzzed_in', (data) => {
