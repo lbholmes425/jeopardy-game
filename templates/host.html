@@ -123,6 +123,15 @@
 
 <body>
     <div class="app-container main-content">
+        <!-- CRITICAL DIAGNOSTICS - REMOVE AFTER FIX -->
+        <div id="sys-status"
+            style="background: red; color: white; padding: 10px; text-align: center; font-weight: bold; font-family: monospace;">
+            SYSTEM STATUS: <span id="js-stat">JS LOADING...</span> | <span id="sock-stat">SOCKET: WAITING</span> | <span
+                id="err-log">NO ERRORS</span>
+            <button onclick="alert('Test Click OK')"
+                style="background: white; color: black; padding: 2px 5px; margin-left: 10px;">TEST CLICK</button>
+        </div>
+
         <div class="host-join-info">
             <div>
                 <h3>PLAYERS JOIN HERE:</h3>
@@ -277,13 +286,42 @@
     </div>
 
     <script>
-        // Init Socket FIRST to ensure core logic works
+        // Global Error Handler
+        window.onerror = function (msg, url, line) {
+            const errDiv = document.getElementById('err-log');
+            if (errDiv) errDiv.innerText = `ERR: ${msg} (L${line})`;
+            if (errDiv) errDiv.parentElement.style.background = "darkred";
+            return false;
+        };
+
+        // Report JS Load
+        document.getElementById('js-stat').innerText = "JS OK";
+        document.getElementById('js-stat').style.color = "lightgreen";
+
+        // Init Socket
         let socket;
         try {
-            socket = io();
+            if (typeof io !== 'undefined') {
+                socket = io();
+
+                socket.on('connect', () => {
+                    document.getElementById('sock-stat').innerText = "SOCKET: CONNECTED";
+                    document.getElementById('sock-stat').style.color = "lightgreen";
+                    document.getElementById('sys-status').style.background = "green";
+                });
+
+                socket.on('disconnect', () => {
+                    document.getElementById('sock-stat').innerText = "SOCKET: DISCONNECTED";
+                    document.getElementById('sys-status').style.background = "orange";
+                });
+
+            } else {
+                throw new Error("io is undefined (CDN blocked?)");
+            }
         } catch (e) {
-            console.error("Socket IO failed to load", e);
-            alert("Error: Network connection issue. Socket library not loaded.");
+            console.error("Socket Init Failed:", e);
+            document.getElementById('sock-stat').innerText = "SOCKET: FAILED";
+            document.getElementById('err-log').innerText = e.message;
         }
 
         // Initialize QR Code (Safely)
