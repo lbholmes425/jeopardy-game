@@ -291,7 +291,10 @@
         }
 
         socket.on('game_loaded', () => {
-            window.location.reload();
+            // Force a hard reload from the server, bypassing cache
+            const url = new URL(window.location.href);
+            url.searchParams.set('t', Date.now());
+            window.location.href = url.toString();
         });
 
         function switchRound(rid) {
