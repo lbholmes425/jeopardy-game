@@ -147,8 +147,16 @@
             }
 
             /* FORCE GRID CELLS TO TOP LAYER */
+            /* FORCE GRID CELLS TO TOP LAYER */
             .host-grid-cell {
                 z-index: 200 !important;
+            }
+
+            /* Ensure Control Panel/Active Clue is ALWAYS on top of Grid */
+            .control-panel,
+            #active-clue-panel,
+            #fj-controls {
+                z-index: 1000 !important;
             }
 
             .host-grid-cell:hover {
