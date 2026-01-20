@@ -309,6 +309,13 @@
             socket.emit('host_action', { action: 'open_clue', round: r, category: c, index: i });
         }
 
+        function openClueFromElement(el) {
+            const r = el.getAttribute('data-round');
+            const c = el.getAttribute('data-cat');
+            const i = parseInt(el.getAttribute('data-index'));
+            openClue(r, c, i);
+        }
+
         function closeClue() {
             socket.emit('host_action', { action: 'close_clue' });
             document.getElementById('active-clue-panel').style.display = 'none';
