@@ -194,7 +194,10 @@
         });
 
         socket.on('game_loaded', (state) => {
-            window.location.reload(); // Reload to get new template data
+            // Force a hard reload from the server, bypassing cache
+            const url = new URL(window.location.href);
+            url.searchParams.set('t', Date.now());
+            window.location.href = url.toString();
         });
 
         socket.on('round_switched', (data) => {
