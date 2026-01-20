@@ -144,13 +144,16 @@
                 <button onclick="switchRound('final_jeopardy')"
                     class="{{ 'active' if state.current_round == 'final_jeopardy' else '' }}">Final</button>
             </div>
-            <select onchange="loadGame(this.value)"
-                style="background:#0F172A; color:gold; padding: 10px; border: 1px solid #334155; border-radius: 8px; font-family: 'Montserrat', sans-serif;">
-                <option value="" disabled>-- Select Week --</option>
-                {% for g in game_list|sort(attribute='id') %}
-                <option value="{{ g.id }}" {% if g.id==state.game_id %}selected{% endif %}>{{ g.title }}</option>
-                {% endfor %}
-            </select>
+            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                <select onchange="loadGame(this.value)"
+                    style="background:#0F172A; color:gold; padding: 10px; border: 1px solid #334155; border-radius: 8px; font-family: 'Montserrat', sans-serif;">
+                    <option value="" disabled>-- Select Week --</option>
+                    {% for g in game_list|sort(attribute='id') %}
+                    <option value="{{ g.id }}" {% if g.id==state.game_id %}selected{% endif %}>{{ g.title }}</option>
+                    {% endfor %}
+                </select>
+                <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">Active: {{ game.title }}</div>
+            </div>
         </header>
 
         {% for round_id in ['round_1', 'round_2'] %}
@@ -163,8 +166,9 @@
             {% for cat, qs in game[round_id].items() %}
             {% set q = qs[i] %}
             {% set q_id = round_id + '-' + cat|replace(' ', '-') + '-' + i|string %}
+            <!-- ESCAPE QUOTES IN ONCLICK -->
             <div class="host-grid-cell {{ 'used' if q_id in state.open_clues else '' }}" id="host-{{ q_id }}"
-                onclick="openClue('{{ round_id }}', '{{ cat }}', {{ i }})">
+                onclick="openClue('{{ round_id }}', '{{ cat|replace("'", "\\'")|replace('"', ' &quot;') }}', {{ i }})">
                 ${{ q.value }}
             </div>
             {% endfor %}
