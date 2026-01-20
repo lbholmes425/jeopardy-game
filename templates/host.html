@@ -277,15 +277,33 @@
     </div>
 
     <script>
-        // Initialize QR Code
-        const joinUrl = `{{ base_url }}/join`;
-        new QRCode(document.getElementById("qrcode"), {
-            text: joinUrl,
-            width: 100,
-            height: 100
-        });
+        // Init Socket FIRST to ensure core logic works
+        let socket;
+        try {
+            socket = io();
+        } catch (e) {
+            console.error("Socket IO failed to load", e);
+            alert("Error: Network connection issue. Socket library not loaded.");
+        }
 
-        const socket = io();
+        // Initialize QR Code (Safely)
+        try {
+            const joinUrl = `{{ base_url }}/join`;
+            const qrContainer = document.getElementById("qrcode");
+            if (qrContainer && window.QRCode) {
+                new QRCode(qrContainer, {
+                    text: joinUrl,
+                    width: 100,
+                    height: 100
+                });
+            } else {
+                console.warn("QRCode library missing or container not found.");
+                if (qrContainer) qrContainer.innerText = "QR Lib Missing";
+            }
+        } catch (e) {
+            console.error("QR Code Error:", e);
+        }
+
         let currentClueVal = 0;
         let fjWagers = {}; // Local cache
 
