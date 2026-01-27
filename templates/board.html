@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Jeopardy Board</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=9">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
@@ -179,17 +179,33 @@
     </div>
 
     <script>
-        // Board QR Code
-        const joinUrl = `{{ base_url }}/join`;
-        new QRCode(document.getElementById("board-qrcode"), {
-            text: joinUrl,
-            width: 100,
-            height: 100
+        // Initialize Socket.IO first for robustness
+        const socket = io();
+        const initialState = {{ state | tojson }};
+        console.log("Board Key Script Started");
+
+        socket.on('connect', () => {
+            console.log('Socket Connected with ID:', socket.id);
         });
 
-        const socket = io();
+        socket.on('connect_error', (err) => {
+            console.error('Socket Connection Error:', err);
+        });
+
+        // Board QR Code
+        const joinUrl = `{{ base_url }}/join`;
+        try {
+            new QRCode(document.getElementById("board-qrcode"), {
+                text: joinUrl,
+                width: 100,
+                height: 100
+            });
+        } catch (e) {
+            console.error("QRCode Initialization Failed (likely CDN block):", e);
+        }
 
         socket.on('state_update', (state) => {
+            console.log("Received state_update");
             updateBoard(state);
         });
 
@@ -344,7 +360,6 @@
         });
 
         function updateBoard(state) {
-            console.log("Updating Board with state:", state);
             // Apply Theme
             if (state.theme) {
                 const root = document.documentElement;
@@ -365,38 +380,42 @@
             } else {
                 ddOverlay.style.display = 'none';
             }
+
             // Dynamic FJ Cards
             const fjBoardContainer = document.getElementById('fj-board-cards');
-            if (activeIds.length !== fjBoardContainer.children.length && state.current_round === 'final_jeopardy') {
-                fjBoardContainer.innerHTML = '';
-                activeIds.forEach(t => {
-                    const name = state.team_names[t] || `Team ${t}`;
-                    const div = document.createElement('div');
-                    div.id = `fj-card-${t}`;
-                    div.style.background = "linear-gradient(180deg, #060CE9 0%, #000088 100%)";
-                    div.style.border = "2px solid gold";
-                    div.style.padding = "20px";
-                    div.style.borderRadius = "10px";
-                    div.style.flex = "1";
-                    div.style.minWidth = "200px";
-                    div.style.textAlign = "center";
-                    div.style.display = "flex";
-                    div.style.flexDirection = "column";
-                    div.style.justifyContent = "center";
-                    div.style.minHeight = "200px";
+            const activeIds = state.active_teams || [];
 
-                    div.innerHTML = `
-                        <h2 style="color:white; margin-top:0;">${name}</h2>
-                        <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px;">
-                            <div id="fj-answer-${t}" style="font-size: 2rem; color: white; background:black; padding:10px; border:1px solid #444;">???</div>
-                            <div id="fj-wager-${t}" style="font-size: 1.5rem; color: gold; display:none;">$---</div>
-                        </div>
-                    `;
-                    fjBoardContainer.appendChild(div);
-                });
-            } else if (state.current_round === 'final_jeopardy') {
+            if (state.current_round === 'final_jeopardy') {
+                if (fjBoardContainer && activeIds.length !== fjBoardContainer.children.length) {
+                    fjBoardContainer.innerHTML = '';
+                    activeIds.forEach(t => {
+                        const name = state.team_names[t] || `Team ${t}`;
+                        const div = document.createElement('div');
+                        div.id = `fj-card-${t}`;
+                        div.style.background = "linear-gradient(180deg, #060CE9 0%, #000088 100%)";
+                        div.style.border = "2px solid gold";
+                        div.style.padding = "20px";
+                        div.style.borderRadius = "10px";
+                        div.style.flex = "1";
+                        div.style.minWidth = "200px";
+                        div.style.textAlign = "center";
+                        div.style.display = "flex";
+                        div.style.flexDirection = "column";
+                        div.style.justifyContent = "center";
+                        div.style.minHeight = "200px";
+
+                        div.innerHTML = `
+                                <h2 style="color:white; margin-top:0;">${name}</h2>
+                                <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px;">
+                                    <div id="fj-answer-${t}" style="font-size: 2rem; color: white; background:black; padding:10px; border:1px solid #444;">???</div>
+                                    <div id="fj-wager-${t}" style="font-size: 1.5rem; color: gold; display:none;">$---</div>
+                                </div>
+                            `;
+                        fjBoardContainer.appendChild(div);
+                    });
+                }
+
                 // Update State (Reveals)
-                // Check reveal state
                 if (state.final_reveal_state) {
                     for (let [team, info] of Object.entries(state.final_reveal_state)) {
                         // Reveal Wager
@@ -409,7 +428,6 @@
                                 wagerEl.style.display = 'none';
                             }
                         }
-
                         // Reveal Answer
                         const ansEl = document.getElementById(`fj-answer-${team}`);
                         if (ansEl) {
@@ -427,68 +445,108 @@
 
             // Update Active Teams & Scores
             const scoreBoard = document.getElementById('scoreBoard');
-            const currentElements = Array.from(scoreBoard.children);
-            const activeIds = state.active_teams || [];
+            if (scoreBoard) {
+                const currentElements = Array.from(scoreBoard.children);
 
-            // Check if we need to rebuild (simple check: length mismatch or id mismatch)
-            // Ideally we just rebuild to differ to state
-            let needsRebuild = false;
-            if (currentElements.length !== activeIds.length) needsRebuild = true;
-            else {
-                // Check IDs
-                currentElements.forEach((el, index) => {
-                    if (parseInt(el.dataset.team) !== activeIds[index]) needsRebuild = true;
-                });
-            }
+                let needsRebuild = false;
+                if (currentElements.length !== activeIds.length) needsRebuild = true;
+                else {
+                    currentElements.forEach((el, index) => {
+                        if (parseInt(el.dataset.team) !== activeIds[index]) needsRebuild = true;
+                    });
+                }
 
-            if (needsRebuild) {
-                scoreBoard.innerHTML = '';
-                activeIds.forEach(t => {
-                    const name = state.team_names[t] || `TEAM ${t}`;
-                    const score = state.scores[t] || 0;
+                if (needsRebuild) {
+                    scoreBoard.innerHTML = '';
+                    activeIds.forEach(t => {
+                        const name = state.team_names[t] || `TEAM ${t}`;
+                        const score = state.scores[t] || 0;
 
-                    const div = document.createElement('div');
-                    div.className = 'team';
-                    div.id = `team-${t}-box`;
-                    div.dataset.team = t;
-                    div.innerHTML = `
-                        <span class="team-name" id="name-${t}">${name.toUpperCase()}</span>
-                        <div class="score-controls"><span class="score" id="score-${t}">${score}</span></div>
-                    `;
-                    scoreBoard.appendChild(div);
-                });
-            } else {
-                // Just update values
-                activeIds.forEach(t => {
-                    const name = state.team_names[t] || `TEAM ${t}`;
-                    const score = state.scores[t] || 0;
+                        const div = document.createElement('div');
+                        div.className = 'team';
+                        div.id = `team-${t}-box`;
+                        div.dataset.team = t;
+                        div.innerHTML = `
+                                <span class="team-name" id="name-${t}">${name.toUpperCase()}</span>
+                                <div class="score-controls"><span class="score" id="score-${t}">${score}</span></div>
+                            `;
+                        scoreBoard.appendChild(div);
+                    });
+                } else {
+                    // Just update values
+                    activeIds.forEach(t => {
+                        const name = state.team_names[t] || `TEAM ${t}`;
+                        const score = state.scores[t] || 0;
 
-                    const nameEl = document.getElementById(`name-${t}`);
-                    if (nameEl) nameEl.innerText = name.toUpperCase();
+                        const nameEl = document.getElementById(`name-${t}`);
+                        if (nameEl) nameEl.innerText = name.toUpperCase();
 
-                    const scoreEl = document.getElementById(`score-${t}`);
-                    if (scoreEl) scoreEl.innerText = score;
-                });
+                        const scoreEl = document.getElementById(`score-${t}`);
+                        if (scoreEl) scoreEl.innerText = score;
+                    });
+                }
             }
 
             // FJ Clue Text
             if (state.final_clue_text) {
-                document.getElementById('fj-display-clue').innerText = state.final_clue_text;
+                const fjClueEl = document.getElementById('fj-display-clue');
+                if (fjClueEl) fjClueEl.innerText = state.final_clue_text;
             }
 
-            // Check FJ reveal state on load
-            if (state.final_reveal_state) {
-                for (let [team, info] of Object.entries(state.final_reveal_state)) {
-                    if (info.wager) {
-                        const el = document.getElementById(`fj-wager-${team}`);
-                        if (el) el.innerText = state.final_wagers[team];
+            // Restore Active Clue from State (Fix for Board Refresh)
+            if (state.current_clue) {
+                const modal = document.getElementById('clue-modal');
+
+                if (modal) {
+                    const catDiv = document.getElementById('modal-category');
+                    const clueDiv = document.getElementById('modal-clue');
+                    const mediaContainer = document.getElementById('modal-media-container');
+
+                    if (catDiv) catDiv.innerText = state.current_clue.category;
+                    if (clueDiv) clueDiv.innerText = state.current_clue.clue;
+
+                    // Media
+                    const clue = state.current_clue;
+                    if (mediaContainer) {
+                        mediaContainer.innerHTML = "";
+                        if (clue.type === 'image') {
+                            mediaContainer.innerHTML = `<img src="${clue.url}" class="clue-media" />`;
+                            mediaContainer.style.display = 'block';
+                        } else if (clue.type === 'audio') {
+                            mediaContainer.innerHTML = `<button onclick="playAudio('${clue.url}')">PLAY AUDIO</button>`;
+                            mediaContainer.style.display = 'block';
+                        } else if (clue.type === 'video') {
+                            mediaContainer.innerHTML = `<video src="${clue.url}" class="clue-media" controls></video>`;
+                            mediaContainer.style.display = 'block';
+                        } else {
+                            mediaContainer.style.display = 'none';
+                        }
                     }
-                    if (info.answer) {
-                        const el = document.getElementById(`fj-answer-${team}`);
-                        if (el) el.innerText = state.final_answers[team];
+
+                    modal.style.display = 'flex';
+
+                    // Daily Double
+                    const ddNotice = document.getElementById('daily-double-notice');
+                    if (ddNotice) {
+                        if (clue.daily_double) {
+                            ddNotice.style.display = 'block';
+                        } else {
+                            ddNotice.style.display = 'none';
+                        }
                     }
                 }
+            } else {
+                // If no active clue, ensure modal is closed
+                const modal = document.getElementById('clue-modal');
+                if (modal) modal.style.display = 'none';
             }
+        }
+
+
+        if (initialState) {
+            updateBoard(initialState);
+        } else {
+            console.warn("No initial state found (null/undefined)");
         }
     </script>
 </body>
