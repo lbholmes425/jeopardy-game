@@ -676,6 +676,21 @@
             new Audio('https://www.myinstants.com/media/sounds/times-up.mp3').play();
         });
 
+        socket.on('fj_item_revealed', (data) => {
+            const team = data.team;
+            const item = data.item;
+            const value = data.value;
+
+            if (item === 'wager') {
+                fjWagers[team] = value;
+                const el = document.getElementById(`wager-val-${team}`);
+                if (el) el.innerText = `$${value}`;
+            } else if (item === 'answer') {
+                const el = document.getElementById(`answer-val-${team}`);
+                if (el) el.innerText = value;
+            }
+        });
+
         socket.on('scores_updated', (scores) => {
             // Dynamic Host Scoreboard Update
             const sb = document.getElementById('hostScoreBoard');
